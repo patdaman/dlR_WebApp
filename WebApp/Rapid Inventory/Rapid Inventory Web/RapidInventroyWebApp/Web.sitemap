@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" enableLocalization="true">
+  <siteMapNode roles="*">
+
+    <!-- Sample No Role -->
+
+    <siteMapNode url="~/Login.aspx" resourceKey="Logout" roles="*"></siteMapNode>
+
+    <siteMapNode url="~/Menu.aspx" resourceKey="Menu" roles="*"></siteMapNode>
+
+    <siteMapNode resourceKey ="Upload Item Data" roles ="*">
+
+      <siteMapNode url="~/UploadItemData.aspx" resourceKey="UploadItemData" roles="*"></siteMapNode>
+
+    </siteMapNode>
+    
+    <siteMapNode resourceKey="Dashboard" roles="*">
+
+      <siteMapNode url="~/Dashboard.aspx" resourceKey="Dashboard" roles="*"></siteMapNode>
+
+    </siteMapNode>
+
+    <siteMapNode resourceKey ="Help" roles ="*">
+
+      <siteMapNode url="~/Contact.aspx" resourceKey="Help" roles="*"></siteMapNode>
+
+    </siteMapNode>
+
+    <siteMapNode resourceKey="Admin" roles="*">
+
+      <siteMapNode resourceKey="LocationMaintenance" roles="*">
+
+        <siteMapNode url="~/LocationMaintenance.aspx" resourceKey="LocationMaintenance" roles="*"></siteMapNode>
+
+      </siteMapNode>
+
+      <siteMapNode resourceKey="DeleteCount" roles="*">
+
+        <siteMapNode url="~/DeleteCount.aspx" resourceKey="DeleteCount" roles="*"></siteMapNode>
+
+        </siteMapNode>
+
+    </siteMapNode>
+
+  </siteMapNode>
+</siteMap>

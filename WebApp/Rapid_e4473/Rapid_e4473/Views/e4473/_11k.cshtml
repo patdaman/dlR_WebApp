@@ -1,0 +1,73 @@
+﻿@model Rapid_e4473.Models._11k
+@{
+    ViewBag.Title = "11k";
+}
+
+<h2>11k</h2>
+
+@using (Html.BeginForm("_11k", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        <p>
+        Are you an alien illegally in the United States?
+        </p>
+        <p>
+            <div class="flip">
+                <span>Notice</span>
+            </div>
+        </p>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.C11K, "Y", new { htmlAttributes = new { @class = "form-control" } }) Yes
+                <br />
+                @Html.RadioButtonFor(model => model.C11K, "N", new { htmlAttributes = new { @class = "form-control" } }) No
+                <br />
+                @Html.ValidationMessageFor(model => model.C11K, "", new { @checked = false, @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        <b>Definition of Prohibited Person:</b>
+                    </p>
+                    <p>
+                        Generally, 18 U.S.C. § 922 prohibits the shipment, transportation, receipt, or possession in or affecting interstate commerce of a firearm by one who: has been convicted of a misdemeanor crime of domestic violence; has been convicted of a felony, or any other crime, punishable by imprisonment for a term exceeding one year (this does not include State misdemeanors punishable by imprisonment of two years or less); is a fugitive from justice; is an unlawful user of, or addicted to, marijuana or any depressant, stimulant, or narcotic drug, or any other controlled substance; has been adjudicated mentally defective or has been committed to a mental institution; has been discharged from the Armed Forces under dishonorable conditions; has renounced his or her U.S. citizenship; is an alien illegally in the United States or an alien admitted to the United States under a nonimmigrant visa; or is subject to certain restraining orders.
+                        <br />
+                        Furthermore, section 922 prohibits the shipment, transportation, or receipt in or affecting interstate commerce of a firearm by one who is under indictment or information for a felony, or any other crime, punishable by imprisonment for a term exceeding one year.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="80" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:80%">
+            </div>
+        </div>
+    </div>
+}

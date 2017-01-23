@@ -1,0 +1,50 @@
+﻿@model Rapid_e4473.Models._14a_Country_Citizenship
+@{
+    ViewBag.Title = "Citizenship";
+}
+
+<h2>Citizenship</h2>
+
+@using (Html.BeginForm("_14a_Country_Citizenship", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.CITIZEN, "USA", new { htmlAttributes = new { @class = "form-control" } }) United States of America
+                <br />
+                @Html.RadioButtonFor(model => model.CITIZEN, "Other", new { htmlAttributes = new { @class = "form-control" } }) Other
+                <br />
+                @Html.ValidationMessageFor(model => model.CITIZEN, "", new { @checked = false, @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="92" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:92%">
+            </div>
+        </div>
+    </div>
+}

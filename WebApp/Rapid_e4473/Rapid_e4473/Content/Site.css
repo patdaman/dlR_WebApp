@@ -1,0 +1,158 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Instruction panel size and color options */
+div.panel {
+    margin: 0px;
+	padding: 5px;
+	text-align: left;
+	background: #ddd;
+	border: solid 1px #fff;
+    max-width: 75%;
+	display: none;
+}
+
+/* Instruction panel button */
+div.flip {
+    border: solid 1px #fff;
+}
+
+.flip span{
+    color: blue;
+}
+
+.flip:hover span{
+    font-weight:bold;
+    text-decoration:underline;
+}   
+
+/* Instruction panel size and color options */
+div.panel2 {
+    margin: 0px;
+	padding: 5px;
+	text-align: left;
+	background: #ddd;
+	border: solid 1px #fff;
+    max-width: 75%;
+}
+
+/* Instruction panel button */
+div.flip2 {
+    border: solid 1px #fff;
+}
+
+.flip2 span{
+    color: blue;
+}
+
+.flip2:hover span{
+    font-weight:bold;
+    text-decoration:underline;
+}   
+
+/* Page Tracker */
+ol.progtrckr {
+    margin: 0;
+    padding: 0;
+    list-style-type none;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    font-size: 11px;
+    text-align: center;
+    line-height: 3em;
+}
+
+ol.progtrckr[data-progtrckr-steps="2"] li { width: 49%; }
+ol.progtrckr[data-progtrckr-steps="3"] li { width: 33%; }
+ol.progtrckr[data-progtrckr-steps="4"] li { width: 24%; }
+ol.progtrckr[data-progtrckr-steps="5"] li { width: 19%; }
+ol.progtrckr[data-progtrckr-steps="6"] li { width: 16%; }
+ol.progtrckr[data-progtrckr-steps="7"] li { width: 14%; }
+ol.progtrckr[data-progtrckr-steps="8"] li { width: 12%; }
+ol.progtrckr[data-progtrckr-steps="9"] li { width: 11%; }
+ol.progtrckr[data-progtrckr-steps="10"] li { width: 10%; }
+ol.progtrckr[data-progtrckr-steps="11"] li { width: 9%; }
+ol.progtrckr[data-progtrckr-steps="12"] li { width: 8%; }
+ol.progtrckr[data-progtrckr-steps="13"] li { width: 7%; }
+ol.progtrckr[data-progtrckr-steps="14"] li { width: 7%; }
+ol.progtrckr[data-progtrckr-steps="15"] li { width: 6%; }
+ol.progtrckr[data-progtrckr-steps="16"] li { width: 6%; }
+ol.progtrckr[data-progtrckr-steps="17"] li { width: 5%; }
+ol.progtrckr[data-progtrckr-steps="18"] li { width: 5%; }
+ol.progtrckr[data-progtrckr-steps="19"] li { width: 5%; }
+ol.progtrckr[data-progtrckr-steps="20"] li { width: 4%; }
+ol.progtrckr[data-progtrckr-steps="21"] li { width: 4%; }
+ol.progtrckr[data-progtrckr-steps="22"] li { width: 4%; }
+ol.progtrckr[data-progtrckr-steps="23"] li { width: 4%; }
+ol.progtrckr[data-progtrckr-steps="24"] li { width: 4%; }
+ol.progtrckr[data-progtrckr-steps="25"] li { width: 3%; }
+
+ol.progtrckr li.progtrckr-done {
+    color: black;
+    border-bottom: 4px solid #d17030;
+}
+
+ol.progtrckr li.progtrckr-todo {
+    color: silver; 
+    border-bottom: 4px solid silver;
+}
+
+ol.progtrckr li:after {
+    content: "\00a0\00a0";
+}
+
+ol.progtrckr li:before {
+    position: relative;
+    bottom: -2.5em;
+    float: left;
+    left: 50%;
+    line-height: 1em;
+}
+
+ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: #d17030;
+    height: 1.2em;
+    width: 1.2em;
+    line-height: 1.2em;
+    border: none;
+    border-radius: 1.2em;
+}
+
+ol.progtrckr li.progtrckr-todo:before {
+    content: "\039F";
+    color: silver;
+    background-color: white;
+    font-size: 1.5em;
+    bottom: -1.6em;
+}
+
+div.error {
+    color: red;
+    font: bold;
+}

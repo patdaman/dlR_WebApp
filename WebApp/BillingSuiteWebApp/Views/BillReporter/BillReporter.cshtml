@@ -1,0 +1,337 @@
+﻿@{
+    string BaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+}
+
+@{
+    ViewBag.Title = "Billing Reporter";
+}
+
+<div class="pull-right" style="display:inline-block; font-size:medium">
+    <a href="@Url.Content("~/Assets/MasterBillingRules.pdf")">[Download Billing Rules PDF]</a>
+</div>
+
+<!--Tool bar definition. Name must be toolbarTemplate for angular controller to inject into grid-->
+<script type="text/x-kendo-template" id="toolbarTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <label class="category-label" style="display:inline-block">
+                Date Type:
+                <select kendo-drop-down-list ng-model="vm.dateType">
+                    <option>Completed Date</option>
+                    <option>Order Date</option>
+                </select>
+            </label>
+            <label class="category-label" style="display:inline-block">
+                From Date:
+                <input id="datePickerFrom" kendo-date-picker ng-model="vm.fromDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                To Date:
+                <input id="datePickerTo" kendo-date-picker ng-model="vm.toDateString" />
+            </label>
+            <kendo-button ng-click="vm.GetData()"> Load </kendo-button>
+            <kendo-button ng-click="vm.GetUnbilled()"> Unbilled </kendo-button>
+
+            <label class="category-label" style="display:inline-block">
+                Program Group:
+                <select kendo-drop-down-list
+                        k-ng-delay="vm.programGroupList"
+                        k-data-source="vm.programGroupList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.programGroupSelection"
+                        ng-change='vm.RunFilter(kendoEvent)'
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+            <label class="category-label" style="display:inline-block">
+                Bill Aggregate:
+                <select kendo-drop-down-list
+                        k-data-source="vm.billingAggregateList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.billingAggregateSelection"
+                        ng-change='vm.RunFilter(kendoEvent)'
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+            <label class="category-label" style="display:inline-block">
+                Bill Class:
+                <select kendo-drop-down-list
+                        k-data-source="vm.billingClassificationList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.billingClassificationSelection"
+                        ng-change='vm.RunFilter(kendoEvent)'
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+            <label class="category-label" style="display:inline-block">
+                Bill Status:
+                <select kendo-drop-down-list
+                        k-ng-delay="vm.billStatusList"
+                        k-data-source="vm.billStatusList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.billStatusSelection"
+                        ng-change='vm.RunFilter(kendoEvent)'
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export to Excel
+                </a>
+            </div>
+
+            <div class="pull-right" style="display:inline-block">
+                <kendo-button ng-click="vm.BillingReportDownload()"> Billing Reports </kendo-button>
+            </div>
+           
+            @*<div class="pull-right" style="display:inline-block">
+                    <kendo-button ng-click="vm.BillingAction()" > Create Billing </kendo-button>
+                </div>*@
+
+        </div>
+    </div>
+</script>
+
+
+@*View starts here*@
+<div>
+    <div>
+        <div class="container">
+            <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+        </div>
+
+        <div class="container-fluid">
+        </div>
+        <div class="container-fluid">
+            <ul id="panelBarBillReporter" kendo-panel-bar k-on-expand="vm.BillingPanelManager(kendoEvent)" style="width: 100%">
+                <li class="k-state-active" id="paneBillReviewer">
+                    <span class="k-link k-state-selected sgnl-panelbar">Review Panel</span>
+                    <div style="padding: 10px;">
+                        <div kendo-grid="gridBillReporter"
+                             k-ng-delay="vm.billReporterGridOptions"
+                             k-options="vm.billReporterGridOptions" />
+                    </div>
+                </li>
+                <li id="paneBillValidate">
+                    <!-- Billing Validation Panel -->
+                    <span class="k-link sgnl-panelbar">Billing Validation Panel  ({{vm.dateType}}: {{vm.fromDateString}} -  {{vm.toDateString}})</span>
+                    <div>
+                        <br />
+                        <label class="category-label">
+                            Select Billing Aggregate:
+                            <select kendo-drop-down-list
+                                    k-data-source="vm.billingAggregateList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    ng-change='vm.FillBillingActionGrid(kendoEvent)'
+                                    ng-model="vm.billingActionAggregateSelection"
+                                    k-option-label="'None'" />
+                        </label>
+                        <div kendo-grid
+                             k-ng-delay="vm.billingActionGridOptions"
+                             k-options="vm.billingActionGridOptions" />
+                        <kendo-button ng-click="vm.RunBillingActionValidation()">Run Billing Validation</kendo-button>
+                    </div>
+                </li>
+                <li id="paneBillAction">
+                    <!-- Billing Action Panel -->
+                    <span class="k-link sgnl-panelbar">Billing Action Panel ({{vm.billingActionAggregateSelection}})</span>
+
+
+                    <div style="float:left;clear:left">
+                        <br />
+                    </div>
+                    <div style="float:left;clear:left">
+                        <!-- Billing Validation Grid -->
+                        <div kendo-grid
+                             k-options="vm.billValidationStatusGridOptions"
+                             k-rebind="vm.billValidationUpdateCount"
+                             k-on-change="vm.handleValidationChange(data, dataItem, columns)">
+
+                            <div k-detail-template>
+                                <!-- detail grid -->
+                                <div kendo-grid k-options="vm.detailGridOptions(dataItem)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="float:left;clear:left;margin-top:10px" class="form-inline">
+                        <div class="pull-left" style="display:inline;">
+                            Add comments (required): <input type="text" id="textBillingActionComment" ng-model="vm.billingActionComment"
+                                                            ng-change="vm.CheckRunBillingActionPossible()" style="width:500px;" />
+                        </div>
+                        <div class="pull-left" style="display:inline;" ng-hide="true"><!-- "vm.isNotXifinAggregateSelection" >-->
+                            <label>
+                                Push Billed Cases to Xifin?
+                                <input type="checkbox" id="chkXifinCreateAccession" ng-model="vm.XifinCreateAccession" />
+                                (If left unchecked, billed cases will need to be uploaded through HL7).
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="float:right;margin-top:10px" ng-hide="vm.notReadytoRunBillingAction">
+                        <div class="pull-right" margin 4px 10px;">
+                            <kendo-button ng-click="vm.RunBillingActionSubmit()">Run Billing Action</kendo-button>
+                        </div>
+                    </div>
+
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@*Billing Report Download Popup*@
+<style type="text/css">
+    section {
+        /*width: 80%;*/
+        /*height: 200px;*/
+        background: white;
+        margin: auto;
+        padding: 5px;
+    }
+
+    div#billleft {
+        width: 75%;
+        height: 200px;
+        background: white;
+        float: left;
+        padding: 5px;
+    }
+
+    div#billright {
+        margin-left: 75%;
+        height: 200px;
+        background: lightgray;
+        padding: 5px;
+    }
+</style>
+<div kendo-window="vm.windowDownloadBillReports" k-visible="false" k-modal="true" style="width:900px">
+    <section>
+        <div id="billleft">
+            <div style="float:left;width:100%">
+                <label class="category-label">
+                    Select Billing Event:
+                    <select kendo-drop-down-list="dropdownBillSelect"
+                            k-options="vm.dropdownBillEventsOptions"
+                            k-rebind="vm.dropdownBillEventsOptions"
+                            k-ng-delay="vm.dropdownBillEventsOptions"
+                            ng-model="vm.billingEventCodeSelection"
+                            ng-change="vm.CheckBillingEventSelected()"
+                            style="width: 100%" />
+                </label>
+            </div>
+            <div style="float:left;clear:left; margin: 4px 10px;">
+
+                <div class="pull-right form-inline" style="float:right;clear:right">
+                    <button style="display:inline;margin:10px" ng-hide="vm.noBillingEventSelectedtoRunReport" ng-click="vm.BillingReportFileDownload(vm.billingEventCodeSelection, 'Excel')">
+                        Excel Report
+                    </button>
+                    <button style="display:inline;margin:20px" ng-hide="vm.noBillingEventSelectedtoRunReport" ng-click="vm.BillingReportFileDownload(vm.billingEventCodeSelection, 'HL7')">
+                        Xifin Report
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="billright">
+            <div class="form-inline" role="form">
+                <label class="category-label" style="display:inline-block;width:90%;margin-left:5px">
+                    Summary Report by Completed Date
+                </label>
+                <label class="category-label" style="display:inline-block;width:90%;margin-left:5px">
+                    From Date:
+                </label>
+                <input id="datePickerFrom" kendo-date-picker ng-model="vm.fromDateSummaryReport"
+                       style="display:inline-block;width:90%;margin-left:5px" />
+                <label class="category-label" style="display:inline-block;width:90%;margin-left:5px">
+                    To Date:
+
+                </label>
+                <input id="datePickerTo" kendo-date-picker ng-model="vm.toDateSummaryReport"
+                       style="display:inline-block;width:90%;margin-left:5px" />
+                <br>
+                <kendo-button ng-click="vm.BillingSummaryReportFileDownload()" style="display:inline-block;width:100px; float:right;clear:right;margin-top:20px"> Get Excel File</kendo-button>
+            </div>
+        </div>
+    </section>
+</div>
+
+@*Billing Validation Wait Window*@
+<div kendo-window="vm.windowBillingValidationWait" k-visible="false" k-modal="true" k-actions="[]">
+    <h2>Please wait while billing is validated</h2>
+
+</div>
+
+@*Billing Creation Wait Window*@
+<div kendo-window="vm.windowBillingCreationWait" k-visible="false" k-modal="true" k-actions="[]">
+    <h2>Please wait while billing is created</h2>
+
+</div>
+@*Billing Validation Popup*@
+
+<script type="text/x-kendo-template" id="validationToolbarTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export All Validation Status to Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/x-kendo-template" id="billingToolbarTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export Billed Cases to Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div kendo-window="vm.windowBillingCreation" k-visible="false" k-modal="true">
+    <div style="float:left">
+        <div style="float:left;clear:left" class="form-inline" role="form">
+            <label class="pull-left sgnl-distinctlabel">{{vm.billingEventData.BillingAggregate}}</label>
+            <label class="pull-left sgnl-distinctlabel">Cases Attempted: {{vm.billingEventData.AttemptedBilledCaseCount}}</label>
+            <label class="pull-left sgnl-distinctlabel">Cases Billed: {{vm.billingEventData.BilledCaseCount}}</label>
+            <label class="pull-left sgnl-distinctlabel"> ({{vm.billingEventData.BilledWithErrorCaseCount}} Billed with Error)</label>
+            <label class="pull-left sgnl-distinctlabel">Billing Date: {{vm.billingEventData.BillingDate}}</label>
+        </div>
+        <div style="float:left;clear:left" class="form-inline" role="form">
+            <label class="pull-left sgnl-distinctlabel">Comments: {{vm.billingEventData.Comments}}</label>
+        </div>
+        <div style="float:left;clear:left">
+            <div kendo-grid="gridBillValidationStatus"
+                 k-ng-delay="vm.billValidationStatusGridOptions"
+                 k-options="vm.billValidationStatusGridOptions"
+                 k-rebind="vm.billValidationStatusGridOptions">
+                <div k-detail-template>
+                    <!-- detail grid -->
+                    <div kendo-grid k-options="vm.detailGridOptions(dataItem)"></div>
+                </div>
+            </div>
+        </div>
+        <div class="pull-right form-inline" style="float:right;clear:right">
+            <button style="display:inline;margin:10px" ng-click="vm.BillingReportFileDownload(vm.billingEventData.BillingEventCode, 'Excel')">
+                Excel Report
+            </button>
+            <button style="display:inline;margin:20px" ng-click="vm.BillingReportFileDownload(vm.billingEventData.BillingEventCode, 'HL7')">
+                Xifin Report
+            </button>
+        </div>
+    </div>
+
+</div>
+

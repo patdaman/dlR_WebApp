@@ -1,0 +1,71 @@
+﻿@model Rapid_e4473.Models._8_Social_Security
+@{
+    ViewBag.Title = "Social Security";
+}
+
+<h2>Social Security Number</h2>
+
+@using (Html.BeginForm("_8_Social_Security", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SOC_SEC_NUM, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.SOC_SEC_NUM, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.SOC_SEC_NUM, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <div class="flip">
+                    <span>Instructions</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <h5>Social Security number is optional, but recommended for faster service.
+                    <br />
+                    Click NEXT to skip.
+                </h5>
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        <b>Privacy Act Information</b>
+                        <br />Solicitation of this information is authorized under 18 U.S.C. § 923(g). Disclosure of the individual’s Social Security number is voluntary. The number may be used to verify the buyer’s identity.
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="38" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:38%">
+            </div>
+        </div>
+    </div>
+}

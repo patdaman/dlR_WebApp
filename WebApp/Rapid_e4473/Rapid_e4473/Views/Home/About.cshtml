@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+    <h2>Getting started</h2>
+<p>
+    Your data is always secure, and the merchant will be able to retrieve your information directly for submitting the required 4473 forms for the ATF.
+</p>
+
+
+
+<p>
+    <b>Purpose of the Form:</b>
+    <br />The purpose of a 4473 is to enable an FFL to determine if he or she may lawfully deliver a firearm to you.  The Rapid e4473 helps your FFL do this efficiently.  After you’ve entered your data, a barcode will be displayed on your screen and emailed to you.  Your FFL will scan this barcode to obtain your e4473 data. He/she will add information about the firearm(s) you intend to purchase and then print a hard copy that you will sign.  Your data is encrypted and completely removed from this server after 7 days for your security.
+</p>    
+
+<p>
+    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+    @Html.ActionLink("Begin", "Index", "e4473", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+    @Html.ActionLink("Instructions", "atf_4473_form", "Home", new { area = "" }, new { @class = "btn btn-primary btn-lg pull-right" })
+</p>

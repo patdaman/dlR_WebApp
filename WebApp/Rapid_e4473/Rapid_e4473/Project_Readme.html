@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Rapid e4473</title>
+    <style>
+        body {
+            background: #fff;
+            color: #505050;
+            font: 14px 'Segoe UI', tahoma, arial, helvetica, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+
+        #header {
+            background: #efefef;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: normal;
+            margin: 0;
+            padding: 0 30px;
+            line-height: 150px;
+        }
+
+        p {
+            font-size: 20px;
+            color: #fff;
+            background: #969696;
+            padding: 0 30px;
+            line-height: 50px;
+        }
+
+        #main {
+            padding: 5px 30px;
+        }
+
+        .section {
+            width: 21.7%;
+            float: left;
+            margin: 0 0 0 4%;
+        }
+
+            .section h2 {
+                font-size: 13px;
+                text-transform: uppercase;
+                margin: 0;
+                border-bottom: 1px solid silver;
+                padding-bottom: 12px;
+                margin-bottom: 8px;
+            }
+
+            .section.first {
+                margin-left: 0;
+            }
+
+                .section.first h2 {
+                    font-size: 24px;
+                    text-transform: none;
+                    margin-bottom: 25px;
+                    border: none;
+                }
+
+                .section.first li {
+                    border-top: 1px solid silver;
+                    padding: 8px 0;
+                }
+
+            .section.last {
+                margin-right: 0;
+            }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            line-height: 20px;
+        }
+
+        li {
+            padding: 4px 0;
+        }
+
+        a {
+            color: #267cb2;
+            text-decoration: none;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <h1>&nbsp; Rapid e4473</h1>
+        <p>Secure ASP .NET 4.51 Web App</p>
+    </div>
+
+    <div id="main">
+        <div class="section first">
+            <h2>This application consists of:</h2>
+            <ul>
+                <li>MVC ASP Web Application</li>
+                <li>Single Controller that contains all actions in order for 4473 form.</li>
+                <li>Theming using Bootstrap.</li>
+                <li>Native AES encryption algorythm for encryption / decryption on the fly.</li>
+                <li>BCrypt function for password encryption / comparison.  (No method of retrieving plain txt psswd)</li>
+                <li>Separate Data Models in true MVC form.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Customize app</h2>
+            <ul>
+                <li>HTML, and TXT email templates saved in flat files in App_Data file within C:/Inetpub/wwwroot/Rapid4473.</li>
+                <li>XML document contains email host settings.</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Deploy</h2>
+            <ul>
+                <li>Code is ready to be compiled for release in IIS directory.&nbsp; NOT a flat file transfer.</li>
+                <li>SQL Server Table Creation - "Create_Rapid_e4473_Database.sql" included in project source code.</li>
+                <li>DB Entity Connection:</li>
+                <li> name="RAPID_e4473Entities"</li>
+                <li> connectionString="metadata=res://*/Models.e4473.csdl|res://*/Models.e4473.ssdl|res://*/Models.e4473.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost;initial catalog=RAPID_e4473;persist security info=True;user id=XXX;password=*********;multipleactiveresultsets=True;application name=EntityFramework&quot;" providerName="System.Data.EntityClient"
+            </ul>
+        </div>
+
+        <div class="section last">
+            <h2>Get help</h2>
+            <ul>
+                <li>Help me Patrick!</li>
+                <li>patrick@chefdelosreyes.com</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

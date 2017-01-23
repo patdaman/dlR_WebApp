@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html ng-app="BillingSuiteApp">
+@Html.Partial("_PartialPageCommonDependencies")
+<body id="appBody">
+    <header>
+        <div id="wrapper">
+            <div id="topdiv" class="container-fluid" >
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" ng-init="isCollapsed = true" ng-click="isCollapsed = !isCollapsed" data-toggle="collapse" data-target="#collapsing-header-section">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    <a class="navbar-brand" href="#">
+                        <img alt="SGNL Logo" style="margin: 0px 150px 0px 40px" src="~/Assets/Sig_Gen_Logo_4c_258x40.png">
+                    </a>
+                </div>
+
+                <div class="navbar-text">
+                    <label id="labelBuildTag" style="color:red;font-size:large">Release Type: Unknown</label>
+                </div>
+
+                <div class="navbar-collapse collapse" ng-class="{collapse: isCollapsed}" id="collapsing-header-section">
+                    <ul class="nav navbar-nav" style="float:right">
+
+                        <li><a href="#Home">Home</a></li>
+                        <li><a href="#About">About</a></li>                        
+                    </ul>
+                </div>
+            </div>
+            <div class="overlay"></div>
+            <!-- Sidebar -->
+            <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+
+                <ul class="nav sidebar-nav" id="nav-main">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Billing Suite
+                        </a>
+                    </li>
+
+                    <li><a href="#PayorEditor">Payor Editor</a></li>
+                    <li><a href="#PhysicianEditor">Physician Editor</a></li>
+                    <li><a href="#CaseEditor">Case Editor</a></li>
+                    <li><a href="#BillReporter">Billing Reporter</a></li>
+                    <li><a href="#AccessionTracking">Billing Tracker</a></li> 
+                    <li><a href="#DailyStatusReport">Daily Status Report</a></li>
+                    <li><a href="#Reconciliation">Reconciliation</a></li>                   
+                </ul>
+            </nav>
+            <!-- /#sidebar-wrapper -->
+
+            <button type="button" class="hamburger is-closed" data-toggle="offcanvas" id="pageHamburger">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
+        </div>
+        <!-- /#wrapper -->
+    </header>
+    <!-- Page Content -->
+    <div class="extendwrapper">
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="col-lg-12" style="width:100%; height:auto">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+        <div class="push"></div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    <div class="footer">
+        <div class="container-fluid">
+            <div id="colorstrip">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p style="text-align:left">&copy; @DateTime.Now.Year - Signal Genetics</p>
+                    </div>
+                    <div class="col-md-8">
+                        <p style="color:darkred;font-weight:bold;text-align:center">Authorized Users Only (Currently logged in as @HttpContext.Current.User.Identity.Name)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var trigger = $('.hamburger'),
+                overlay = $('.overlay'),
+                extwrap = $('#page-content-wrapper'),
+               isClosed = false;
+            //set the build tag
+            if (BillingSuiteWebApp.AppBuildTag != "Production") {
+                document.getElementById('labelBuildTag').innerHTML = "Release Type:" + BillingSuiteWebApp.AppBuildTag;
+                document.getElementById('colorstrip').style.backgroundColor = "red";
+                document.getElementById('sidebar-wrapper').style.backgroundColor = "gray";
+                document.getElementById('pageHamburger').style.backgroundColor = "darkred";
+            }
+            else
+                document.getElementById('labelBuildTag').innerHTML = "";
+            trigger.click(function () {
+                hamburger_cross();
+            });
+
+            extwrap.click(function () {
+                if (isClosed) {
+                    hamburger_cross();
+                    $('#wrapper').toggleClass('toggled');
+                }
+            })
+
+            function hamburger_cross() {
+
+                if (isClosed == true) {
+                    //overlay.hide();
+                    trigger.removeClass('is-open');
+                    trigger.addClass('is-closed');
+                    isClosed = false;
+                } else {
+                    //overlay.show();
+                    trigger.removeClass('is-closed');
+                    trigger.addClass('is-open');
+                    isClosed = true;
+                }
+            }
+
+            $('[data-toggle="offcanvas"]').click(function () {
+                $('#wrapper').toggleClass('toggled');
+            });
+            $(function () {
+                var navMain = $("#nav-main");
+                navMain.on("click", "a", null, function () {
+                    $('#wrapper').toggleClass('toggled');
+                    hamburger_cross();
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿@*@model SignalViewModel.Payor
+
+<h3>Provide Payor Information</h3>
+<br />
+@Html.HiddenFor(model => model.PayorGroupId)
+@Html.HiddenFor(model => model.PayorId)
+
+<div>
+    @Html.LabelFor(model => model.PayorCode)
+</div>
+<div>
+    @Html.EditorFor(model => model.PayorCode)
+    @Html.ValidationMessageFor(model => model.PayorCode)
+</div>
+
+<div>
+    @Html.LabelFor(model => model.Name)
+</div>
+<div>
+    @Html.EditorFor(model => model.Name)
+    @Html.ValidationMessageFor(model => model.Name)
+</div>
+
+<div>
+    @Html.LabelFor(model => model.PayorGroupName)
+</div>
+<div>
+    @Html.Kendo().DropDownListFor(model => model.PayorGroupName)
+    @Html.ValidationMessageFor(model => model.PayorGroupName)
+</div>
+
+<div>
+    @Html.LabelFor(model => model.ContactPhone)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactPhone)
+    @Html.ValidationMessageFor(model => model.ContactPhone)
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.ContactAddr_1)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactAddr_1)
+    @Html.ValidationMessageFor(model => model.ContactAddr_1)
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.ContactAddr_2)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactAddr_2)
+    @Html.ValidationMessageFor(model => model.ContactAddr_2)
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.ContactCity)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactCity)
+    @Html.ValidationMessageFor(model => model.ContactCity)
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.ContactState)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactState)
+    @Html.ValidationMessageFor(model => model.ContactState)
+</div>
+
+
+<div>
+    @Html.LabelFor(model => model.ContactZipCode)
+</div>
+<div>
+    @Html.EditorFor(model => model.ContactZipCode)
+    @Html.ValidationMessageFor(model => model.ContactZipCode)
+</div>*@
+
+
+

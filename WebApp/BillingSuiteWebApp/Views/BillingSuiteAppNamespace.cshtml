@@ -1,0 +1,11 @@
+﻿<script type="text/javascript">
+    //Creates the BillignSuiteWebApp namespace that will be available to all java script code.
+    //We use this to initialize and inject server side parameters into our client code. 
+    //This should be rendered at the begining of any HTML page like _PartialPageCommonDependencies.
+    // ViewData object comes from the BaseController.cs. -DT
+    var BillingSuiteWebApp = {
+        AppBuildTag: '@(ViewData["AppBuildTag"])',
+        ApiPath: '@(ViewData["ApiUri"])',
+        TitleTag : '@(ViewData["TitleTag"])'
+    }
+</script>

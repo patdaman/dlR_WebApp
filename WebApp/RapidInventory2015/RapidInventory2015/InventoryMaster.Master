@@ -1,0 +1,88 @@
+﻿<%@ Master Language="C#" AutoEventWireup="false" CodeBehind="InventoryMaster.master.cs" Inherits="RapidInventoryWebApp.InventoryMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head id="Head1" runat="server">
+	<meta charset="utf-8" />
+	<title><%:Page.Title%> - Rapid Physical Inventory</title>
+	<asp:PlaceHolder runat="server">
+		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+		<script src="<%:ResolveUrl("~/Scripts/modernizr-2.6.2.js")%>"></script>
+		<script src="Scripts/script.js"></script>
+	</asp:PlaceHolder>
+	<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<meta name="viewport" content="width=device-width" />
+
+	<link href="CSS/menubar.css" rel="stylesheet" />
+	<link href="CSS/masterpage.css" rel="stylesheet" />
+	<asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+	<style type="text/css">
+		.auto-style1 {
+			width: 124px;
+			height: 98px;
+		}
+	</style>
+</head>
+<body>
+	<form id="Form1" runat="server" class="form">
+		<asp:ScriptManager ID="ScriptManager1" runat="server">
+			<Scripts>
+				<asp:ScriptReference Name="jquery" />
+				<asp:ScriptReference Name="jquery.ui.combined" />
+			</Scripts>
+		</asp:ScriptManager>
+		<header>
+			<div class="content-wrapper">
+				<div class="float-left">
+					<p class="site-title">
+						<img alt="" class="auto-style1" src="Images/Rapid_Logo.jpg" /><a id="A1" runat="server">Rapid Physical Inventory </a>
+						<asp:Label ID="lblCompanyLocation" runat="server" Text=""></asp:Label>
+					</p>
+					<p>
+					</p>
+				</div>
+				<div class="float-right">
+					<section id="login">
+						<asp:LoginView ID="LoginView1" runat="server" ViewStateMode="Disabled">
+							<AnonymousTemplate>
+								<ul>
+									<li><a id="registerLink" runat="server" href="~/Account/Register">Register</a></li>
+									<li><a id="loginLink" runat="server" href="~/Account/Login">Log in</a></li>
+								</ul>
+							</AnonymousTemplate>
+							<LoggedInTemplate>
+								<p>
+									<a id="A2" runat="server" class="username" title="Manage your account">
+										<asp:LoginName ID="LoginName1" runat="server" CssClass="username" />
+									</a>
+									<asp:LoginStatus ID="LoginStatus1" runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/Login.aspx" />
+								</p>
+							</LoggedInTemplate>
+						</asp:LoginView>
+					</section>
+				</div>
+				<div>
+					<asp:Menu ID="menuBar" runat="server" Orientation="Horizontal" CssClass="cssmenu" Width="100%" IncludeStyleBlock="True">
+						<StaticSelectedStyle BackColor="White" />
+					</asp:Menu>
+				</div>
+			</div>
+		</header>
+		<div id="body">
+			<asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+			<section class="content-wrapper main-content clear-fix">
+				<asp:ContentPlaceHolder runat="server" ID="MainContent" />
+			</section>
+		</div>
+		<footer>
+			<div class="content-wrapper">
+				<div class="float-left-bottom">
+					<p>
+						&copy; <%:DateTime.Now.Year%> - Rapid POS 2014
+					</p>
+				</div>
+			</div>
+		</footer>
+	</form>
+</body>
+</html>

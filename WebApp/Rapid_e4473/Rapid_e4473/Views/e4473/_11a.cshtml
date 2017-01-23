@@ -1,0 +1,80 @@
+﻿@model Rapid_e4473.Models._11a
+@{
+    ViewBag.Title = "11a";
+}
+
+<h2>11a</h2>
+@using (Html.BeginForm("_11a", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <p>Are you the actual transferee/buyer of the firearm(s) listed on this form?
+        </p>
+        <p>Warning: You are not the actual buyer if you are acquiring the firearm(s) on behalf of another person. If you are not the actual buyer, the dealer cannot transfer the firearm(s) to you. 
+        </p>
+        <p>
+            <div class="flip">
+                <span>Additional Instructions</span>
+            </div>
+        </p>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.C11A, "Y", new { htmlAttributes = new { @class = "form-control" } }) Yes 
+                <br />
+                @Html.RadioButtonFor(model => model.C11A, "N", new { htmlAttributes = new { @class = "form-control" } }) No 
+                <br />
+                @Html.RadioButtonFor(model => model.C11A, "R", new { htmlAttributes = new { @class = "form-control" } }) I am only picking up a repaired firearm(s) for another person
+                <br />
+                @Html.ValidationMessageFor(model => model.C11A, "", new { @checked = false, @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        For purposes of this form, you are the actual transferee/buyer if you are purchasing the firearm for yourself or otherwise acquiring the firearm for yourself (e.g., redeeming the firearm from pawn/retrieving it from consignment, firearm raffle winner). You are also the actual transferee/buyer if you are legitimately purchasing the firearm as a gift for a third party.
+                    </p>
+                    <p>
+                        ACTUAL TRANSFEREE/BUYER EXAMPLES: Mr. Smith asks Mr. Jones to purchase a firearm for Mr. Smith. Mr. Smith gives Mr. Jones the money for the firearm. Mr. Jones is NOT THE ACTUAL TRANSFEREE/ BUYER of the firearm and must answer “NO” to question 11.a. The licensee may not transfer the firearm to Mr. Jones.
+                        <br />
+                        However, if Mr. Brown goes to buy a firearm with his own money to give to Mr. Black as a present, Mr. Brown is the actual transferee/buyer of the firearm and should answer “YES” to question 11.a.
+                        <br />
+                        However, you may not transfer a firearm to any person you know or have reasonable cause to believe is prohibited under 18 U.S.C. § 922(g), (n), or (x).
+                    </p>
+                    <p>
+                        Please note: EXCEPTION: If you are picking up a repaired firearm(s) for another person, you are not required to answer 11.a. and may proceed to question 11.b.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="50" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:50%">
+            </div>
+        </div>
+    </div>
+}

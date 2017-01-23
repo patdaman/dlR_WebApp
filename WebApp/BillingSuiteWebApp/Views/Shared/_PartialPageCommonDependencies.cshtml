@@ -1,0 +1,43 @@
+﻿<head>
+
+    @*Provides Build String for JS/Angular. Order is important*@
+    @Html.Partial("~/Views/BillingSuiteAppNamespace.cshtml")
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-sacle=1.0">
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+
+
+    <title>@ViewBag.Title - Signal Genetics Inc</title>
+
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+
+
+
+    <!-- This is with boot strap -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/kendo/2016.1.112/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/kendo/2016.1.112/kendo.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/custom.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2016.1.112/kendo.dataviz.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/kendo/2016.1.112/kendo.dataviz.bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+       
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular") <!--angular after jquery -->
+    @Scripts.Render("~/bundles/kendo")  @*Kendo after angular*@
+
+    @Scripts.Render("~/bundles/app/Models")
+    @Scripts.Render("~/bundles/app/Services")
+    @Scripts.Render("~/bundles/app/Controllers")
+    @Scripts.Render("~/bundles/app")
+
+    <!-- For the theme -->
+    <link href="@Url.Content("~/Content/kendo/2016.1.112/kendo.metro.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/kendo/2016.1.112/kendo.dataviz.metro.min.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/kendo/2016.1.112/jszip.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kendo.modernizr.custom.js")"></script>
+    <link href="@Url.Content("~/Content/FinalStyles.css")" rel="stylesheet" type="text/css" />
+</head>

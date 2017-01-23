@@ -1,0 +1,15 @@
+﻿<email>
+	<!-- From Address -->
+	<from>receipts@paperlesspurchase.com</from>
+
+	<!-- Credentials -->
+	<username>receipts+paperlesspurchase.com</username>
+	<password>ReceiptsRpos!</password>
+
+	<!-- SMTP Email Server -->
+	<host>mail.paperlesspurchase.com</host>
+	<port>26</port>
+
+	<!-- Email Subject -->
+	<subject>Your 4473 customer barcode</subject>
+</email>

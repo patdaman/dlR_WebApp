@@ -1,0 +1,43 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color:#ffffff;
+	width: 310px;
+	max-width: 310px;
+}
+
+#content {
+	background-color:#FFFFFF;
+	}
+
+.td_text_small_subdued {
+	font-family:arial;
+	font-size:10px;
+	font-weight:normal;
+	color:Gray;
+	}
+
+.td_text {
+	font-family:arial;
+	font-size:14px;
+	font-weight:normal;
+	}
+	
+.td_text_larger {
+	font-family:arial;
+	font-size:18px;
+	line-height:30px;
+	font-weight:normal;
+    margin-left: 0px;
+}		
+	
+h3 {
+	margin:0;
+	padding:0;
+	font-family:Helvetica;
+	font-size:16px;
+	color:#ff8533;
+	font-weight:normal;
+	}

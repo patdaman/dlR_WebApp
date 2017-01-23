@@ -1,0 +1,469 @@
+﻿@{
+    string BaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+}
+
+
+@{
+    ViewBag.Title = "Case Editor";
+}
+<div>
+    <div>
+        <div class="container">
+            <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+        </div>
+
+
+        <div class="container-fluid">
+            <script type="text/x-kendo-template" id="toolbarTemplate">
+                <div class="toolbar">
+                    <div class="form-inline" role="form">
+                        <label class="category-label" style="display:inline-block">
+                            Date Type:
+                            <select kendo-drop-down-list ng-model="::vm.dateType">
+                                <option>Completed Date</option>
+                                <option>Order Date</option>
+                            </select>
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            From Date:
+                            <input id="datePickerFrom" kendo-date-picker ng-model="::vm.fromDateString" />
+                        </label>
+
+                        <label class="category-label" style="display:inline-block">
+                            To Date:
+                            <input id="datePickerTo" kendo-date-picker ng-model="::vm.toDateString" />
+                        </label>
+                        <kendo-button ng-click="::vm.GetData($event)"> Load </kendo-button>
+
+                        <label class="category-label" style="display:inline-block">
+                            Program Group:
+                            <select kendo-drop-down-list
+                                    k-ng-delay="::vm.programGroupList"
+                                    k-data-source="::vm.programGroupList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="::vm.programGroupSelection"
+                                    ng-change='::vm.RunFilter(kendoEvent)'
+                                    style="width: 140px; margin-right:5px;" />
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            Bill Aggregate:
+                            <select kendo-drop-down-list
+                                    k-data-source="::vm.billingAggregateList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="::vm.billingAggregateSelection"
+                                    ng-change='::vm.RunFilter(kendoEvent)'
+                                    style="width: 140px; margin-right:5px;" />
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            Bill Class:
+                            <select kendo-drop-down-list
+                                    k-data-source="::vm.billingClassificationList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="::vm.billingClassificationSelection"
+                                    ng-change='::vm.RunFilter(kendoEvent)'
+                                    style="width: 140px; margin-right:5px;" />
+                        </label>
+                        
+                        <label class="category-label" style="display:inline-block">
+                            Bill Status:
+                            <select kendo-drop-down-list
+                                    k-ng-delay="::vm.billStatusList"
+                                    k-data-source="::vm.billStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="::vm.billStatusSelection"
+                                    ng-change='::vm.RunFilter(kendoEvent)'
+                                    style="width: 140px; margin-right:5px;" />
+                        </label>
+                        
+
+                        <div class="pull-right" style="display:inline-block">
+                            <a class="k-button k-button-icontext k-grid-excel">
+                                <span class="k-icon k-i-excel"></span>Export to Excel
+                            </a>
+                        </div>
+                        <br />
+                        <label class="category-label" style="display:inline-block; margin-top:5px">
+                            CaseNumber (comma separate if entering multiple Cases): <input type="text" id="txtCaseList" ng-model="::vm.caseListStr" style="width: 250px;" />
+                        </label>
+                        <kendo-button ng-click="::vm.SearchCases()"> Search Case(s) </kendo-button>
+
+                    </div>
+                </div>
+            </script>
+
+            @*Detail Template*@
+            <script type="text/x-kendo-template" id="detailTemplate">
+                <div class='case-details'>
+                    <label class="category-label" style="display:inline-block">
+                        Bill Class:
+                        <select kendo-drop-down-list
+                                k-data-source="::vm.billingClassificationList"
+                                k-data-text-field="'Item'"
+                                k-data-value-field="'Item'"
+                                data-bind="value:BillingClassification"
+                                style="" width: 200px;"
+                                ng-disabled="::vm.CheckDisallowBillStatusChange(dataItem.BillableStatus)" />
+                    </label>
+                    <label class="category-label" style="display:inline-block">
+                        Bill Type:
+                        <select kendo-drop-down-list
+                                k-data-source="::vm.billTypeList"
+                                k-data-text-field="'Item'"
+                                k-data-value-field="'Item'"
+                                data-bind="value:BillType"
+                                style="width: 150px;margin-right:5px;" />
+                    </label>
+
+
+                    @if (ViewBag.IsBillingAdminRole)
+                    {
+                        <label class="category-label" style="display:inline-block">
+                            Bill Status:
+                            <select kendo-drop-down-list
+                                    k-data-source="::vm.billStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    data-bind="value:BillableStatus"
+                                    contenteditable="true"
+                                    style="width: 150px;margin-right:5px;" />
+                        </label>
+                    }
+                    else
+                    {
+                        <label class="category-label" style="display:inline-block">
+                            Bill Status:
+                            <select kendo-drop-down-list
+                                    k-data-source="::vm.billStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    data-bind="value:BillableStatus"
+                                    ng-disabled="true"
+                                    style="width: 150px;margin-right:5px;" />
+                        </label>
+                    }
+
+
+
+                    <input type="button" class="k-button cancel" value="Cancel" style="float:right;display:inline-block" ng-click="vm.updateActionComment = null" />
+                    <input type="button" class="k-button save" value="Update" style="float:right;display:inline-block" ng-disabled="vm.updateActionComment == undefined" />
+                    <div style="display:inline-block;float:right">
+                        <strong style="color:red">Update Note (required):</strong> <input data-bind="value:NewNotes" style="width: 600px;margin-right:20px;" ng-model="vm.updateActionComment" />
+                    </div>
+
+                    <br />
+                    <table>
+                        <tr>
+                            <td>
+                                <label class="category-label" style="display:inline-block;float:left; font-size:medium; font-weight:bold">
+                                    Primary Payor:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.payorCodesList"
+                                            k-data-text-field="'text'"
+                                            k-data-value-field="'value'"
+                                            data-bind="value:PayorId1"
+                                            style="width: 200px; margin-top:5px;margin-right:5px; font-size:x-small; font-weight: bold" />
+                                </label>
+                                <label class="category-label" style="float:left;">
+                                    Network 1:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.networkList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:Payor1Network1"
+                                            style="width: 180px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <label class="category-label" style="float:left;">
+                                    Network 2:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.networkList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:Payor1Network2"
+                                            style="width: 180px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <br /><p>&nbsp;</p>
+                                <label class="category-label" style="float:left;">
+                                    Home Plan:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.homePlanList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:HomePlan1"
+                                            style="width: 150px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <div style="float:left; margin-top:5px;">
+                                    Policy No. (Subscriber ID): <input data-bind="value:PayorPolicyNumber1" style="width: 180px;" />
+                                </div><br />
+                                <p>&nbsp;</p>
+                                <label class="category-label" style="float:left;">
+                                    Plan Type:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.planTypeList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:PlanType1"
+                                            style="width: 150px; margin-top:5px;margin-right:5px;" />
+                                </label>
+                                <div style="float:left; margin-top:5px;">
+                                    Group No.: <input data-bind="value:PayorGroupNumber1" style="width: 180px;" />
+                                </div>
+                                <br />
+                                <p>&nbsp;</p>
+                                <hr />
+                                <h5>
+                                    <strong style="float:left;">Insured Info - Relationship*:</strong>
+                                    <label class="category-label" style="float:left;">
+                                        <select kendo-drop-down-list
+                                                k-data-source="::vm.insuredRelationshipList"
+                                                k-data-text-field="'Item'"
+                                                k-data-value-field="'Item'"
+                                                data-bind="value:InsuredRelationship1"
+                                                style="width: 100px;margin-left:5px;" />
+                                        <!--  ng-model="vm.insuredRelationship1Selection"
+                                            ng-change='::vm.CheckInsuredRelationship1IsSelf(kendoEvent)'-->
+                                    </label>
+                                </h5>
+                                <br />
+                                <p>&nbsp;</p>
+                                <label style="font-size:x-small;font-weight:lighter">
+                                    (*If Relationship is "SELF" and bottom section is left blank, Patient Info will be used as the Insured Info.)
+                                </label>
+                                <div ng-hide="::vm.insuredRelationship1SelectionIsSelf">
+                                    <div style="float:left; margin-top:5px;">
+                                        Last Name: <input data-bind="value:Subscriber1LastName" style="width: 120px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        First Name: <input data-bind="value:Subscriber1FirstName" style="width: 120px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Middle Name: <input data-bind="value:Subscriber1MiddleName" style="width: 120px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+
+                                    <div style="float:left; margin-top:5px; margin-right: 5px">
+                                        DOB: <input data-bind="value:Subscriber1DateOfBirth" kendo-date-picker style="width: 100px;" />
+                                    </div>
+                                    <label class="category-label" style="float:left;">
+                                        Gender:
+                                        <select kendo-drop-down-list
+                                                k-data-source="::vm.genderList"
+                                                k-data-text-field="'Item'"
+                                                k-data-value-field="'Item'"
+                                                data-bind="value:Subscriber1Gender"
+                                                style="width: 80px; margin-top:5px;margin-right:5px;" />
+                                    </label>
+                                    <div style="float:left; margin-top:5px; margin-right: 5px">
+                                        Home Phone: <input data-bind="value:Subscriber1PhoneNumber" style="width: 100px;" />
+                                    </div>
+
+                                    <br />
+                                    <p>&nbsp;</p>
+
+                                    <div style="float:left; margin-top:5px;">
+                                        Address 1: <input data-bind="value:Subscriber1Address1" style="width: 180px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Address 2: <input data-bind="value:Subscriber1Address2" style="width: 180px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+                                    <div style="float:left; margin-top:5px;">
+                                        City: <input data-bind="value:Subscriber1City" style="width: 100px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        State: <input data-bind="value:Subscriber1StateProvince" style="width: 30px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Country: <input data-bind="value:Subscriber1Country" style="width: 100px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Zip: <input data-bind="value:Subscriber1PostalCode" style="width: 80px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+                                </div>
+                            </td>
+                            <td>
+                                <label class="category-label" style="display:inline-block;float:left; font-size:medium; font-weight:bold">
+                                    Secondary Payor:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.payorCodesList"
+                                            k-data-text-field="'text'"
+                                            k-data-value-field="'value'"
+                                            data-bind="value:PayorId2"
+                                            style="width: 200px; margin-top:5px;margin-right:5px; font-size:x-small; font-weight: bold" />
+                                </label>
+                                <label class="category-label" style="float:left;">
+                                    Network 1:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.networkList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:Payor2Network1"
+                                            style="width: 180px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <label class="category-label" style="float:left;">
+                                    Network 2:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.networkList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:Payor2Network2"
+                                            style="width: 180px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <br /><p>&nbsp;</p>
+                                <label class="category-label" style="float:left;">
+                                    Home Plan:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.homePlanList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:HomePlan2"
+                                            style="width: 150px; margin-top:5px; margin-right:5px;" />
+                                </label>
+                                <div style="float:left; margin-top:5px;">
+                                    Policy No. (Subscriber ID): <input data-bind="value:PayorPolicyNumber2" style="width: 180px;" />
+                                </div><br />
+                                <p>&nbsp;</p>
+                                <label class="category-label" style="float:left;">
+                                    Plan Type:
+                                    <select kendo-drop-down-list
+                                            k-data-source="::vm.planTypeList"
+                                            k-data-text-field="'Item'"
+                                            k-data-value-field="'Item'"
+                                            data-bind="value:PlanType2"
+                                            style="width: 150px; margin-top:5px;margin-right:5px;" />
+                                </label>
+                                <div style="float:left; margin-top:5px;">
+                                    Group No.: <input data-bind="value:PayorGroupNumber2" style="width: 180px;" />
+                                </div>
+                                <br />
+                                <p>&nbsp;</p>
+                                <hr />
+                                <h5>
+                                    <strong style="float:left;">Insured Info - Relationship*:</strong>
+                                    <label class="category-label" style="float:left;">
+                                        <select kendo-drop-down-list
+                                                k-data-source="::vm.insuredRelationshipList"
+                                                k-data-text-field="'Item'"
+                                                k-data-value-field="'Item'"
+                                                data-bind="value:InsuredRelationship2"
+                                                style="width: 100px;margin-left:5px;" />
+                                        <!--  ng-model="vm.insuredRelationship2Selection"
+                                            ng-change='::vm.CheckInsuredRelationship2IsSelf(kendoEvent)'-->
+                                    </label>
+                                </h5>
+                                <br />
+                                <p>&nbsp;</p>
+                                <label style="font-size:x-small;font-weight:lighter">
+                                    (*If Relationship is "SELF" and bottom section is left blank, Patient Info will be used as the Insured Info.)
+                                </label>
+
+
+                                <div ng-hide="::vm.insuredRelationship2SelectionIsSelf">
+                                    <div style="float:left; margin-top:5px;">
+                                        Last Name: <input data-bind="value:Subscriber2LastName" style="width: 120px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        First Name: <input data-bind="value:Subscriber2FirstName" style="width: 120px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Middle Name: <input data-bind="value:Subscriber2MiddleName" style="width: 120px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+
+                                    <div style="float:left; margin-top:5px; margin-right: 5px">
+                                        DOB: <input data-bind="value:Subscriber2DateOfBirth" kendo-date-picker style="width: 100px;" />
+                                    </div>
+                                    <label class="category-label" style="float:left;">
+                                        Gender:
+                                        <select kendo-drop-down-list
+                                                k-data-source="::vm.genderList"
+                                                k-data-text-field="'Item'"
+                                                k-data-value-field="'Item'"
+                                                data-bind="value:Subscriber2Gender"
+                                                style="width: 80px; margin-top:5px;margin-right:5px;" />
+                                    </label>
+                                    <div style="float:left; margin-top:5px; margin-right: 5px">
+                                        Home Phone: <input data-bind="value:Subscriber2PhoneNumber" style="width: 100px;" />
+                                    </div>
+
+                                    <br />
+                                    <p>&nbsp;</p>
+
+                                    <div style="float:left; margin-top:5px;">
+                                        Address 1: <input data-bind="value:Subscriber2Address1" style="width: 180px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Address 2: <input data-bind="value:Subscriber2Address2" style="width: 180px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+                                    <div style="float:left; margin-top:5px;">
+                                        City: <input data-bind="value:Subscriber2City" style="width: 100px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        State: <input data-bind="value:Subscriber2StateProvince" style="width: 30px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Country: <input data-bind="value:Subscriber2Country" style="width: 100px;" />
+                                    </div>
+                                    <div style="float:left; margin-top:5px;">
+                                        Zip: <input data-bind="value:Subscriber2PostalCode" style="width: 80px;" />
+                                    </div>
+                                    <br />
+                                    <p>&nbsp;</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </script>
+            <div kendo-grid="gridCaseEditor"
+                 k-ng-delay="::vm.caseEditorGridOptions"
+                 k-options="::vm.caseEditorGridOptions">
+            </div>
+
+        </div>
+
+
+        @*Case Notes Window*@
+
+        <script type="text/x-kendo-template" id="caseNotesToolbarTemplate">
+            <div class="toolbar">
+                <div class="form-inline" role="form">
+                    <div class="pull-right" style="display:inline-block">
+                        <a class="k-button k-button-icontext k-grid-excel">
+                            <span class="k-icon k-i-excel"></span>Export to Excel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <div kendo-window="::vm.windowCaseNotes" k-visible="false" k-modal="true">
+            <div style="float:left">
+                <div style="float:left;clear:left">
+                    <div kendo-grid="gridCaseNotes"
+                         k-ng-delay="::vm.caseNotesGridOptions"
+                         k-options="::vm.caseNotesGridOptions"
+                         k-rebind="vm.caseNotesGridOptions">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

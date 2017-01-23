@@ -1,0 +1,76 @@
+﻿@model Rapid_e4473.Models._13_State_of_Residence
+@using Rapid_e4473.HelperClasses;
+@{
+    ViewBag.Title = "State of Residence";
+}
+
+<h2>State of Residence</h2>
+
+@using (Html.BeginForm("_13_State_of_Residence", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <p>
+            What is your State of residence (if any)? 
+        </p>
+        <p>
+            <div class="flip">
+                <span>Instructions</span>
+            </div>
+        </p>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RESIDENCE_STATE, new SelectList(ListVals.states, "RESIDENCE_STATE", "RESIDENCE_STATE"), new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.RESIDENCE_STATE, "", new { @checked = false, @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        <b>State of Residence:</b>
+                    </p>
+                    <p>
+                        The State in which an individual resides. An individual resides in a State if he or she is present in a State with the intention of making a home in that State. If an individual is a member of the Armed Forces on active duty, his or her State of residence also is the State in which his or her permanent duty station is located.
+                    </p>
+                    <p>
+                        If you are a U.S. citizen with two States of residence, you should list your current residence address in response to question 2 <i>(e.g., if you are buying a me in State X, you should list your address in State X in response to question 2.)</i>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-done">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="89" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:89%">
+            </div>
+        </div>
+    </div>
+}
+
+

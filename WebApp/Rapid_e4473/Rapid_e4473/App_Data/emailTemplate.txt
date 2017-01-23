@@ -1,0 +1,14 @@
+﻿Rapid e4473
+
+Customer Data Saved Successfully!
+
+Use this number with your participating dealer for fast processing of your 4473 form.
+
+Rapid e4473 ID:
+<CUSTBARCODE>
+
+Navigate to https://rapid4473.com/e4473/Login?Barcode=<CUSTBARCODE> 
+
+
+&copy; 2015 - Rapid e4473
+ 

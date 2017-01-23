@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "Submit e4473";
+}
+@using System.Web.Mvc
+@using Rapid_e4473
+@using Rapid_e4473.HelperClasses
+@using Rapid_e4473.Models
+<h2>Submit e4473</h2>
+
+@using (Html.BeginForm("summary", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        <p>
+            @if (ViewData["ErrorMessage"] != null)
+            {
+                <div class="error">
+                    <span>
+                        @ViewData["ErrorMessage"]
+                    </span>
+                </div>
+            }
+            @if (ViewData["MissingColumns"] != null)
+            {
+                <br />
+                <div class="error">
+                    <span>
+                        @Html.Raw(ViewData["MissingColumns"]) 
+                    </span>
+                </div>
+            } 
+            else
+            { 
+                @:<i>Your responses are listed at the bottom of this page.  Please review their accuracy.</i>
+            }
+        </p>
+        <p>
+            <b><i>Important Notice</i></b>
+        </p>
+        <p>
+            I certify that my answers to Section A are true, correct, and complete. I have read and understand the Notices, Instructions, and Definitions on ATF Form 4473. I understand that answering “yes” to question 11.a. if I am not the actual buyer is a crime punishable as a felony under Federal law, and may also violate State and/or local law. I understand that a person who answers “yes” to any of the questions 11.b. through 11.k. is prohibited from purchasing or receiving a firearm. I understand that a person who answers “yes” to question 11.l. is prohibited from purchasing or receiving a firearm, unless the person also answers “yes” to question 12. I also understand that making any false oral or written statement, or exhibiting any false or misrepresented identification with respect to this transaction, is a crime punishable as a felony under Federal law, and may also violate State and/or local law. I further understand that the repetitive purchase of firearms for the purpose of resale for livelihood and profit without a Federal firearms license is a violation of law.
+        </p>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <div class="flip">
+                    <span>Transferee's Signature Notice</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        <b>Certification Definition of Engaged in the Business:</b>
+                        <br />Under 18 U.S.C. § 922 (a)(1), it is unlawful for a person to engage in the business of dealing in firearms without a license. A person is engaged in the business of dealing in firearms if he or she devotes time, attention, and labor to dealing in firearms as a regular course of trade or business with the principal objective of livelihood and profit through the repetitive purchase and resale of firearms. A license is not required of a person who only makes occasional sales, exchanges, or purchases of firearms for the enhancement of a personal collection or for a hobby, or who sells all or part of his or her personal collection of firearms.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        @{
+            var CustObj = (CUSTOMER)Session["Customer"];
+            var Crypto = new SimpleAES();
+        }
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <div class="flip2">
+                    <span>Summary</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel2">
+                    <p>
+                        @Html.ActionLink("First Name: " + @Crypto.DecryptString(CustObj.FIRST_NAME), "_1a")
+                        <br />
+                        @Html.ActionLink("Last Name: " + @Crypto.DecryptString(CustObj.LAST_NAME), "_1a")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.MIDDLE_NAME) != "NMN")
+                        {
+                            @Html.ActionLink("Middle Name: " + @Crypto.DecryptString(CustObj.MIDDLE_NAME), "_1c")
+                            <br />
+                        }
+                        @Html.ActionLink("Address 1: " + @Crypto.DecryptString(CustObj.ADDRS_1), "_2")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.ADDRS_2) != "*")
+                        {
+                            @Html.ActionLink("Address 2: " + @Crypto.DecryptString(CustObj.ADDRS_2), "_2")
+                            <br />
+                        }
+                        @Html.ActionLink("City: " + @Crypto.DecryptString(CustObj.CITY), "_2")
+                        <br />
+                        @Html.ActionLink("State: " + @Crypto.DecryptString(CustObj.STATE), "_2")
+                        <br />
+                        @Html.ActionLink("Zip Code: " + @Crypto.DecryptString(CustObj.ZIP_COD), "_2")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_CITY) != "*")
+                        {
+                            @Html.ActionLink("City of Birth: " + @Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_CITY), "_3b")
+                            <br />
+                        }
+                        @if (Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_STATE) != "*")
+                        {
+                            @Html.ActionLink("State of Birth: " + @Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_STATE), "_3b")
+                            <br />
+                        }
+                        @if (Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_FOREIGN) != "*")
+                        {
+                            @Html.ActionLink("Foreign Country of Birth: " + @Crypto.DecryptString(CustObj.PLACE_OF_BIRTH_FOREIGN), "_3c")
+                            <br />
+                        }
+                        @Html.ActionLink("Height ft: " + @Crypto.DecryptString(CustObj.HEIGHT_FT), "_4")
+                        <br />
+                        @Html.ActionLink("Height in: " + @Crypto.DecryptString(CustObj.HEIGHT_IN), "_4")
+                        <br />
+                        @Html.ActionLink("Weight: " + @Crypto.DecryptString(CustObj.WEIGHT), "_5")
+                        <br />
+                        @Html.ActionLink("Gender: " + @Crypto.DecryptString(CustObj.GENDER), "_6")
+                        <br />
+                        @Html.ActionLink("Birthdate: " + @Crypto.DecryptString(CustObj.BIRTHDATE), "_7")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.SOC_SEC_NUM) != "*")
+                        {
+                            @Html.ActionLink("Soc Sec #: " + @Crypto.DecryptString(CustObj.SOC_SEC_NUM), "_8")
+                            <br />
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Soc Sec #: Choose not to answer", "_8")
+                            <br />
+                        }
+                        @if (Crypto.DecryptString(CustObj.UPIN) != "*")
+                        {
+                            @Html.ActionLink("UPIN: " + @Crypto.DecryptString(CustObj.UPIN), "_9")
+                            <br />
+                        }
+                        else
+                        {
+                            @Html.ActionLink("UPIN: Choose not to answer", "_9")
+                            <br />
+                        }
+                        @{
+                            string ethnicity = Crypto.DecryptString(CustObj.ETHNICITY);
+                            if (ethnicity == "H")
+                            {
+                                ethnicity = "Hispanic or Latino";
+                            }
+                            else if (ethnicity == "N")
+                            {
+                                ethnicity = "Not Hispanic or Latino";
+                            }
+                        }
+                        @Html.ActionLink("Ethnicity: " + ethnicity, "_10a")
+                        <br />
+                        @{
+                            CustomerData getData = new CustomerData();
+                            string raceText = Crypto.DecryptString(CustObj.RACE);
+                            string Race = getData.displayRaceList(raceText);
+                        }
+                        @Html.ActionLink("Race: " + @Html.Raw(Race), "_10b")
+                        <br />
+                        @Html.ActionLink("11A: " + @Crypto.DecryptString(CustObj.C11A), "_a11")
+                        <br />
+                        @Html.ActionLink("11B: " + @Crypto.DecryptString(CustObj.C11B), "_b11")
+                        <br />
+                        @Html.ActionLink("11C: " + @Crypto.DecryptString(CustObj.C11C), "_c11")
+                        <br />
+                        @Html.ActionLink("11D: " + @Crypto.DecryptString(CustObj.C11D), "_d11")
+                        <br />
+                        @Html.ActionLink("11E: " + @Crypto.DecryptString(CustObj.C11E), "_e11")
+                        <br />
+                        @Html.ActionLink("11F: " + @Crypto.DecryptString(CustObj.C11F), "_f11")
+                        <br />
+                        @Html.ActionLink("11G: " + @Crypto.DecryptString(CustObj.C11G), "_g11")
+                        <br />
+                        @Html.ActionLink("11H: " + @Crypto.DecryptString(CustObj.C11H), "_h11")
+                        <br />
+                        @Html.ActionLink("11I: " + @Crypto.DecryptString(CustObj.C11I), "_i11")
+                        <br />
+                        @Html.ActionLink("11J: " + @Crypto.DecryptString(CustObj.C11J), "_j11")
+                        <br />
+                        @Html.ActionLink("11K: " + @Crypto.DecryptString(CustObj.C11K), "_k11")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.C11L) != "*")
+                        {
+                            @Html.ActionLink("11L: " + @Crypto.DecryptString(CustObj.C11L), "_l11")
+                            <br />
+                        }
+                        @if (Crypto.DecryptString(CustObj.ALIEN) != "*")
+                        {
+                            @Html.ActionLink("Alien Status: " + @Crypto.DecryptString(CustObj.ALIEN), "_12")
+                            <br />
+                        }
+                        @Html.ActionLink("State of Residence: " + @Crypto.DecryptString(CustObj.RESIDENCE_STATE), "_13")
+                        <br />
+                        @Html.ActionLink("Citizenship: " + @Crypto.DecryptString(CustObj.CITIZENSHIP), "_14a")
+                        <br />
+                        @if (Crypto.DecryptString(CustObj.ALIEN_NUM) != "*")
+                        {
+                            @Html.ActionLink("Alien Number: " + @Crypto.DecryptString(CustObj.ALIEN_NUM), "_15")
+                            <br />
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-done">Personal</li>
+            <!--
+            -->
+            <li class="progtrckr-done">Details</li>
+            <!--
+            -->
+            <li class="progtrckr-done">Eligible</li>
+            <!--
+            -->
+            <li class="progtrckr-done">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="100" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:100%">
+            </div>
+        </div>
+        <hr />
+  
+    </div>
+}

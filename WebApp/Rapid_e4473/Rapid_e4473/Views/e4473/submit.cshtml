@@ -1,0 +1,52 @@
+﻿@model Rapid_e4473.Models.submit
+@{
+    ViewBag.Title = "Submit e4473";
+}
+
+@using (Html.BeginForm("submit", "e4473", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <h2>Submit e4473</h2>
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        <p>
+            Please enter a password.
+            <br />
+            You will be able to log in during the next 7 days to view / edit your responses.
+        </p>
+        <div class="form-group">
+            @Html.LabelFor(model => model.PASSWORD, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.PASSWORD, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CONFIRMPASSWORD, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.CONFIRMPASSWORD, new { @class = "form-control" })
+                <br />
+                @Html.ValidationMessageFor(model => model.CONFIRMPASSWORD, "", new { @class = "text-danger" })
+                @if (ViewData["ErrorMessage"] != null)
+                {
+                    <p />
+                    <div class="error">
+                        <span>
+                            @ViewData["ErrorMessage"]
+                        </span>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnNext" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

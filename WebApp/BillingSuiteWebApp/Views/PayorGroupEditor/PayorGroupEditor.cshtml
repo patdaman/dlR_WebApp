@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "PayorGroupEditor";
+}
+
+
+<div class="container-fluid">
+    <h2>Billing <span class="color_h2">Payor Group Editor</span></h2>
+
+    @(Html.Kendo().Grid<SignalViewModel.PayorGroup>()
+    .Name("gridPayorGroupEdit")
+            .Columns(column =>
+            {
+                column.Bound(p => p.PayorGroupName).HeaderTemplate("<label for='pname'>Payor Group Name</label> <input type='text' id='pname' style='width: 50px;' />");
+                column.Bound(p => p.ContractualAllowance).Title("Contractual Allowance");
+                column.Bound(p => p.StartDate).Title("Start Date").Format("{0:MM/dd/yyyy}");
+                column.Command(Cmd => { Cmd.Edit(); });
+            })
+    .Editable(edit => edit.Mode(GridEditMode.InLine))
+    //.ToolBar(tool => { tool.Create(); tool.Excel(); })
+    .ToolBar(tool =>
+    {
+    tool.Template(@<text>
+        <div class="toolbar">
+            <div class="form-inline" role="form">
+
+                <div class="pull-left" style="display:inline-block">
+                    <a class="k-button k-button-icontext k-grid-add" href="/PayorGroupEditor/GetPayorGroups?gridPayorGroupEdit-mode=insert">
+                        <span class="k-icon k-add"></span>Add new record
+                    </a>
+                </div>
+
+                <div class="pull-right" style="display:inline-block">
+                    <a class="k-button k-button-icontext k-grid-excel">
+                        <span class="k-icon k-i-excel"></span>Export to Excel
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </text>);
+    })
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Events(e => e.Edit("onEdit"))
+    .Selectable(selectable => selectable
+            .Mode(GridSelectionMode.Multiple)
+            .Type(GridSelectionType.Cell))
+    .DataSource(source => source
+        .Ajax()
+        .PageSize(25)
+                .Model(model =>
+                {
+                    model.Id(p => p.PayorGroupId);
+                    model.Field(p => p.PayorGroupId).Editable(false);
+                    //model.Field(p => p.StartDate).Editable(false);
+
+                })
+        .Read(read => { read.Action("GetPayorGroups", "PayorGroupEditor"); })
+        .Update(update => update.Action("UpdatePayorGroup", "PayorGroupEditor"))
+        .Create(create => create.Action("InsertPayorGroup", "PayorGroupEditor"))
+        .Events(e => { e.Change("onChange"); e.Error("onGridDataError"); })
+        )
+    .Pageable(pager => pager
+        .Refresh(true)
+        .ButtonCount(10)
+        .PageSizes(new int[] { 10, 20, 50, 100, 1000 }))
+    .HtmlAttributes(new { style = "height: 750px" })
+
+    )
+
+</div>
+
+<script>
+
+    var pnameVal = "";
+    $(document).ready(function () {
+        var grid = $('#gridPayorGroupEdit').data('kendoGrid');
+
+        $("#pname").on('keyup', function () {
+            pnameVal = $(this).val();
+            doDynamicFilter();
+        })
+    })
+
+    function doDynamicFilter() {
+        var grid = $('#gridPayorGroupEdit').data('kendoGrid');
+        var filter = {
+            logic: "and",
+            filters: []
+        };
+        if (pnameVal.length > 0)
+            filter.filters.push({ field: "PayorGroupName", operator: "startswith", value: pnameVal });
+
+        grid.dataSource.filter([filter]);
+    }
+
+    // function implements the all pager. triggered by change event of grid datasource
+    function onChange(e) {
+
+        var grid = $('#gridPayorGroupEdit').data("kendoGrid");
+
+        var pageSizes = [
+            { text: "5", value: 5 },
+            { text: "10", value: 10 },
+            { text: "25", value: 25 },
+            { text: "50", value: 50 },
+            { text: "100", value: 100 },
+            { text: "All", value: grid.dataSource.total() }
+        ];
+
+        // add the all pager
+        $('.k-pager-sizes select[data-role="dropdownlist"]').data('kendoDropDownList').setDataSource(new kendo.data.DataSource({ data: pageSizes }));
+    }
+
+    function onGridDataError(e) {
+        if (e.errors) {
+            var message = "Errors:\n\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            // Display the message
+            alert(message);
+            // Cancel the changes
+            var grid = $('#gridPayorGroupEdit').data('kendoGrid');
+            grid.cancelChanges();
+
+        }
+
+    }
+
+    function onEdit(e) {
+
+        var model = e.model;
+        var grid = $('#gridPayorGroupEdit').data("kendoGrid");
+        var pc = e.container.find("input[name='PayorGroupName']");
+        var isinsertmode = e.model.isNew();
+
+        if (!e.model.isNew()) {
+            pc[0].disabled = true;
+
+            e.model.one("set", function (e) {
+                if (!confirm("A new contractual allowance/start date was set. This will end the previous contractual allowance for this payor group.")) {
+                    //    e.preventDefault();
+                }
+            })
+        }
+        else {
+            pc[0].disabled = false;
+        }
+
+    }
+
+
+</script>

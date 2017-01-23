@@ -1,0 +1,122 @@
+﻿@model Rapid_e4473.Models._2_Address
+@using Rapid_e4473.HelperClasses
+@{
+    ViewBag.Title = "Address";
+}
+
+@using (Html.BeginForm("_2_Address", "e4473", FormMethod.Post))
+{
+    <h2>Current Residence Address</h2>
+
+    <p>
+        <h5>U.S. Postal abbreviations are acceptable. Cannot be a post office box.</h5>
+    </p>
+    
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+    
+        <div id="progressbar-1"></div> 
+        <hr />
+        @Html.ValidationSummary(true)
+    
+        <div class="form-group">
+            @Html.LabelFor(model => model.ADDRS_1, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ADDRS_1, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.ADDRS_1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ADDRS_2, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ADDRS_2, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.ADDRS_2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CITY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.CITY, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.CITY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.COUNTY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.COUNTY, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.COUNTY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.STATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.STATE, new SelectList(ListVals.addrs_states, "STATE", "STATE"), new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.STATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ZIP_COD, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ZIP_COD, new { htmlAttributes = new { @class = "form-control" } })
+                <br />
+                @Html.ValidationMessageFor(model => model.ZIP_COD, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="control-label col-md-2">
+                <div class="flip">
+                    <span>Instructions</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" name="BtnPrevious" value="Previous" class="btn btn-default" />
+                <input type="submit" name="BtnNext" value="Next" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <div class="panel">
+                    <p>
+                        U.S. Postal abbreviations are acceptable. (e.g., St., Rd., Dr., PA, NC, etc.). Address cannot be a post office box. County and Parish are one and the same.
+                    </p>
+                    <p>
+                        If the buyer is a member of the Armed Forces on active duty acquiring a firearm in the State where his or her permanent duty station is located, but does not reside at his or her permanent duty station, the buyer must list both his or her permanent duty station address and his or her residence address in response to question 2. If you are a U.S. citizen with two States of residence, you should list your current residence address in response to question 2 (e.g., if you are buying a firearm while staying at your weekend home in State X, you should list your address in State X in response to question 2).
+                    </p>
+                </div>
+            </div>
+        </div>
+        <ol class="progtrckr" data-progtrckr-steps="4">
+            <li class="progtrckr-todo">Personal</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Details</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Eligible</li>
+            <!--
+        -->
+            <li class="progtrckr-todo">Residence</li>
+        </ol>
+        <br />
+        <div class="progress progress-striped active" style="max-width:98%">
+            <div class="progress-bar" role="progressbar"
+                 aria-valuenow="14" aria-valuemin=" 0" aria-valuemax="100" style="min-width:1px;width:14%">
+            </div>
+        </div>
+    </div>
+}
+

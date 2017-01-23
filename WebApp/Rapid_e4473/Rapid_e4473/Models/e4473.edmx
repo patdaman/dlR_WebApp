@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RAPID_e4473Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CUSTOMERS">
+          <Key>
+            <PropertyRef Name="CUST_ID" />
+          </Key>
+          <Property Name="CUST_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BARCODE" Type="varchar" MaxLength="100" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="100" />
+          <Property Name="EMAIL" Type="nvarchar" MaxLength="150" />
+          <Property Name="TIMESTAMP" Type="datetime" />
+          <Property Name="FIRST_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="LAST_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="MIDDLE_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="ADDRS_1" Type="varchar" MaxLength="150" />
+          <Property Name="ADDRS_2" Type="varchar" MaxLength="150" />
+          <Property Name="CITY" Type="varchar" MaxLength="100" />
+          <Property Name="COUNTY" Type="varchar" MaxLength="100" />
+          <Property Name="STATE" Type="varchar" MaxLength="50" />
+          <Property Name="ZIP_COD" Type="varchar" MaxLength="50" />
+          <Property Name="PLACE_OF_BIRTH_STATE" Type="varchar" MaxLength="100" />
+          <Property Name="PLACE_OF_BIRTH_CITY" Type="varchar" MaxLength="100" />
+          <Property Name="PLACE_OF_BIRTH_FOREIGN" Type="varchar" MaxLength="100" />
+          <Property Name="HEIGHT_FT" Type="varchar" MaxLength="50" />
+          <Property Name="HEIGHT_IN" Type="varchar" MaxLength="50" />
+          <Property Name="WEIGHT" Type="varchar" MaxLength="50" />
+          <Property Name="GENDER" Type="varchar" MaxLength="50" />
+          <Property Name="BIRTHDATE" Type="varchar" MaxLength="100" />
+          <Property Name="SOC_SEC_NUM" Type="varchar" MaxLength="50" />
+          <Property Name="UPIN" Type="varchar" MaxLength="50" />
+          <Property Name="ETHNICITY" Type="varchar" MaxLength="50" />
+          <Property Name="RACE" Type="varchar" MaxLength="50" />
+          <Property Name="C11A" Type="varchar" MaxLength="50" />
+          <Property Name="C11B" Type="varchar" MaxLength="50" />
+          <Property Name="C11C" Type="varchar" MaxLength="50" />
+          <Property Name="C11D" Type="varchar" MaxLength="50" />
+          <Property Name="C11E" Type="varchar" MaxLength="50" />
+          <Property Name="C11F" Type="varchar" MaxLength="50" />
+          <Property Name="C11G" Type="varchar" MaxLength="50" />
+          <Property Name="C11H" Type="varchar" MaxLength="50" />
+          <Property Name="C11I" Type="varchar" MaxLength="50" />
+          <Property Name="C11J" Type="varchar" MaxLength="50" />
+          <Property Name="C11K" Type="varchar" MaxLength="50" />
+          <Property Name="C11L" Type="varchar" MaxLength="50" />
+          <Property Name="ALIEN" Type="varchar" MaxLength="50" />
+          <Property Name="RESIDENCE_STATE" Type="varchar" MaxLength="50" />
+          <Property Name="CITIZENSHIP" Type="varchar" MaxLength="100" />
+          <Property Name="ALIEN_NUM" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityContainer Name="RAPID_e4473ModelStoreContainer">
+          <EntitySet Name="CUSTOMERS" EntityType="Self.CUSTOMERS" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RAPID_e4473Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUST_ID" />
+          </Key>
+          <Property Name="CUST_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIRST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LAST_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MIDDLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRS_1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="ADDRS_2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="CITY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="COUNTY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="STATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZIP_COD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PLACE_OF_BIRTH_FOREIGN" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WEIGHT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GENDER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BIRTHDATE" Type="String" />
+          <Property Name="SOC_SEC_NUM" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UPIN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ETHNICITY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RACE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11A" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11B" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11C" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11D" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11E" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11F" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11G" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11H" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11I" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11J" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11K" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C11L" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ALIEN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RESIDENCE_STATE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CITIZENSHIP" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ALIEN_NUM" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BARCODE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="EMAIL" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="HEIGHT_FT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HEIGHT_IN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PLACE_OF_BIRTH_STATE" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PLACE_OF_BIRTH_CITY" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TIMESTAMP" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="RAPID_e4473Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CUSTOMERS" EntityType="Self.CUSTOMER" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RAPID_e4473ModelStoreContainer" CdmEntityContainer="RAPID_e4473Entities">
+          <EntitySetMapping Name="CUSTOMERS">
+            <EntityTypeMapping TypeName="RAPID_e4473Model.CUSTOMER">
+              <MappingFragment StoreEntitySet="CUSTOMERS">
+                <ScalarProperty Name="TIMESTAMP" ColumnName="TIMESTAMP" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="PLACE_OF_BIRTH_CITY" ColumnName="PLACE_OF_BIRTH_CITY" />
+                <ScalarProperty Name="PLACE_OF_BIRTH_STATE" ColumnName="PLACE_OF_BIRTH_STATE" />
+                <ScalarProperty Name="HEIGHT_IN" ColumnName="HEIGHT_IN" />
+                <ScalarProperty Name="HEIGHT_FT" ColumnName="HEIGHT_FT" />
+                <ScalarProperty Name="EMAIL" ColumnName="EMAIL" />
+                <ScalarProperty Name="CUST_ID" ColumnName="CUST_ID" />
+                <ScalarProperty Name="FIRST_NAME" ColumnName="FIRST_NAME" />
+                <ScalarProperty Name="LAST_NAME" ColumnName="LAST_NAME" />
+                <ScalarProperty Name="MIDDLE_NAME" ColumnName="MIDDLE_NAME" />
+                <ScalarProperty Name="ADDRS_1" ColumnName="ADDRS_1" />
+                <ScalarProperty Name="ADDRS_2" ColumnName="ADDRS_2" />
+                <ScalarProperty Name="CITY" ColumnName="CITY" />
+                <ScalarProperty Name="COUNTY" ColumnName="COUNTY" />
+                <ScalarProperty Name="STATE" ColumnName="STATE" />
+                <ScalarProperty Name="ZIP_COD" ColumnName="ZIP_COD" />
+                <ScalarProperty Name="PLACE_OF_BIRTH_FOREIGN" ColumnName="PLACE_OF_BIRTH_FOREIGN" />
+                <ScalarProperty Name="WEIGHT" ColumnName="WEIGHT" />
+                <ScalarProperty Name="GENDER" ColumnName="GENDER" />
+                <ScalarProperty Name="BIRTHDATE" ColumnName="BIRTHDATE" />
+                <ScalarProperty Name="SOC_SEC_NUM" ColumnName="SOC_SEC_NUM" />
+                <ScalarProperty Name="UPIN" ColumnName="UPIN" />
+                <ScalarProperty Name="ETHNICITY" ColumnName="ETHNICITY" />
+                <ScalarProperty Name="RACE" ColumnName="RACE" />
+                <ScalarProperty Name="C11A" ColumnName="C11A" />
+                <ScalarProperty Name="C11B" ColumnName="C11B" />
+                <ScalarProperty Name="C11C" ColumnName="C11C" />
+                <ScalarProperty Name="C11D" ColumnName="C11D" />
+                <ScalarProperty Name="C11E" ColumnName="C11E" />
+                <ScalarProperty Name="C11F" ColumnName="C11F" />
+                <ScalarProperty Name="C11G" ColumnName="C11G" />
+                <ScalarProperty Name="C11H" ColumnName="C11H" />
+                <ScalarProperty Name="C11I" ColumnName="C11I" />
+                <ScalarProperty Name="C11J" ColumnName="C11J" />
+                <ScalarProperty Name="C11K" ColumnName="C11K" />
+                <ScalarProperty Name="C11L" ColumnName="C11L" />
+                <ScalarProperty Name="ALIEN" ColumnName="ALIEN" />
+                <ScalarProperty Name="RESIDENCE_STATE" ColumnName="RESIDENCE_STATE" />
+                <ScalarProperty Name="CITIZENSHIP" ColumnName="CITIZENSHIP" />
+                <ScalarProperty Name="ALIEN_NUM" ColumnName="ALIEN_NUM" />
+                <ScalarProperty Name="BARCODE" ColumnName="BARCODE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

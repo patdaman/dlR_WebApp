@@ -1,0 +1,357 @@
+﻿@{
+    string BaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+}
+
+@{
+    ViewBag.Title = "Reconciliation";
+}
+<div>
+    <div class="container">
+        <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+    </div>
+
+    <div class="container-fluid">
+        <kendo-tabstrip id="ReconciliationTabs">
+
+            <ul>                
+                <li id="Transactions" class="k-state-active">Transaction Reconciliation</li>
+                <li id="CaseFinancials">Case Financials</li>
+                <li id="BaiUploader">Bank File Uploader</li>
+            </ul>            
+            <div>
+
+                <!-- Transactions Pane -->
+                <div>
+                    <div kendo-grid="vm.TransactionGrid"
+                         k-ng-delay="vm.TransactionGridOptions"
+                         k-options="vm.TransactionGridOptions"
+                         k-on-change="vm.onTransactionChange(kendoEvent)" />
+                </div>
+            </div>
+            <!-- Case Financials Pane -->
+            <div>
+                <div kendo-grid="vm.gridCaseFinancials"
+                     k-ng-delay="vm.caseFinancialsGridOptions"
+                     k-options="vm.caseFinancialsGridOptions" />
+            </div>
+            <div>
+                <!-- BAI Files Pane -->
+                <div>
+                    <br/>
+                    *CSX file upload is only for CITI bank downloaded files
+                    <br />
+                    <div kendo-grid="vm.BaiFileGrid"
+                         k-ng-delay="vm.BaiFileGridOptions"
+                         k-options="vm.BaiFileGridOptions"
+                         k-on-change="vm.onBaiFileChange(kendoEvent)" />
+                </div>
+            </div>
+        </kendo-tabstrip>
+
+    </div>
+</div>
+
+@*Case Financials Notes Window*@
+
+<script type="text/x-kendo-template" id="caseNotesToolbarTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export to Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div kendo-window="vm.windowCaseNotes" k-visible="false" k-modal="true">
+    <div style="float:left">
+        <div style="float:left;clear:left">
+            <div kendo-grid="gridCaseNotes"
+                 k-ng-delay="vm.caseNotesGridOptions"
+                 k-options="vm.caseNotesGridOptions"
+                 k-rebind="vm.caseNotesGridOptions">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Case Financials Panel -->
+<!--Tool bar definition.-->
+<script type="text/x-kendo-template" id="caseFinancialsToolbarTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <label class="category-label" style="display:inline-block">
+                From Date:
+                <input id="caseFinancialsdatePickerFrom" kendo-date-picker ng-model="vm.caseFinancialsfromDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                To Date:
+                <input id="caseFinancialsdatePickerTo" kendo-date-picker ng-model="vm.caseFinancialstoDateString" />
+            </label>
+            <kendo-button ng-click="vm.GetCaseFinancialsData($event)"> Load </kendo-button>
+
+            <label class="category-label" style="display:inline-block">
+                Bill Class:
+                <select kendo-drop-down-list
+                        k-data-source="vm.billingClassificationList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.billingClassificationSelection"
+                        ng-change='vm.RunCaseFinancialsFilter(kendoEvent)'
+                        style="width: 200px; margin-right:5px;" />
+            </label>
+            <label class="category-label" style="display:inline-block">
+                Open/Closed Status:
+                <select kendo-drop-down-list
+                        k-data-source="vm.casePaymentStatusList"
+                        k-data-text-field="'Item'"
+                        k-data-value-field="'Item'"
+                        k-option-label="'All'"
+                        ng-model="vm.casePaymentStatusSelection"
+                        ng-change='vm.RunCaseFinancialsFilter(kendoEvent)'
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export to Excel
+                </a>
+            </div>
+
+        </div>
+    </div>
+</script>
+
+<!--BAI File Panel       -->
+<!--Tool bar definition. Name must be toolbarTemplate for angular controller to inject into grid-->
+<script type="text/x-kendo-template" id="baiFileTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <input kendo-upload
+                   type="file"
+                   accept=".bai | .csx"
+                   k-error="vm.FileUploadError"
+                   k-ng-delay="vm.BaiFileUploadOptions"
+                   k-options="vm.BaiFileUploadOptions" />
+            <br />
+            <label class="category-label" style="display:inline-block">
+                From Date:
+                <input id="datePickerFrom" kendo-date-picker ng-model="vm.baiFromDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                To Date:
+                <input id="datePickerTo" kendo-date-picker ng-model="vm.baiToDateString" />
+            </label>
+            <kendo-button ng-click="vm.GetBaiData()"> Load Bank File List </kendo-button>
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export to Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--Transaction Panel -->
+<!--Tool bar definition. Name must be transactionTemplate for angular controller to inject into grid-->
+<script type="text/x-kendo-template" id="transactionTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <label class="category-label" style="display:inline-block">
+                From Date:
+                <input id="datePickerFrom" kendo-date-picker ng-model="vm.fromDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                To Date:
+                <input id="datePickerTo" kendo-date-picker ng-model="vm.toDateString" />
+            </label>
+            <kendo-button ng-click="vm.GetTransactionData()"> Load </kendo-button>
+            @*<label class="category-label" style="display:inline-block">
+                Banks:
+                <select kendo-drop-down-list
+                        k-ng-delay="::vm.bankList"
+                        k-data-source="vm.bankList"
+                        k-data-text-field="'text'"
+                        k-data-value-field="'value'"
+                        optionLabel="''"
+                        ng-model="vm.bankSelection"
+                        style="width: 140px; margin-right:5px;" />
+            </label>*@
+            <label class="category-label" style="display:inline-block; margin-top:5px;">
+                Filter Debits:
+                <input type="checkbox" data-bind="checked: noShowDebits" ng-model="vm.FilterDebits" ng-change="vm.RunFilter(kendoEvent)" />
+            </label>
+            <label class="category-label" style="display:inline-block; margin-top:5px;">
+                Filter Reconciled Transactions:
+                <input type="checkbox" data-bind="checked: noShowZBal" ng-model="vm.FilterZBalTransactions" ng-change="vm.RunFilter(kendoEvent)" />
+            </label>
+
+            <div class="pull-right" style="display:inline-block">
+                <a class="k-button k-button-icontext k-grid-excel">
+                    <span class="k-icon k-i-excel"></span>Export to Excel
+                </a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--Case Reconciliation Panel -->
+<!--Tool bar definition. Name must be toolbarTemplate for angular controller to inject into grid-->
+<script type="text/x-kendo-template" id="caseReconciliationTemplate">
+    <div class="toolbar">
+        <label class="h4" style="display:inline-block; margin-top:5px"><strong>Assigned Cases</strong></label>
+
+        <div class="pull-right" style="display:inline-block">
+            <a class="k-button k-button-icontext k-grid-excel">
+                <span class="k-icon k-i-excel"></span>Export to Excel
+            </a>
+        </div>
+    </div>
+</script>
+
+<!--Case Reconciliation Panel -->
+<!--Tool bar definition. Name must be toolbarTemplate for angular controller to inject into grid-->
+<script type="text/x-kendo-template" id="caseSearchTemplate">
+    <div class="toolbar">
+        <div class="form-inline" role="form">
+            <label class="h4" style="display:inline-block; margin-top:5px"><strong>Case Search</strong></label>
+            <br />
+            <label class="category-label" style="display:inline-block; margin-top:5px">
+                CaseNumber: <input type="text" id="txtCaseList" ng-model="vm.ReconciliationCase.caseListStr" style="width: 250px; margin-left:10px" />
+            </label>
+            <kendo-button ng-click="vm.ReconciliationCase.GetCaseDataFromCaseNumber(kendoEvent)" hidden="hidden"> Search Case(s) </kendo-button>
+            <br />
+
+            <label class="category-label" style="display:inline-block">
+                From Date:
+                <input id="caseDatePickerFrom" style="margin-left:15px" kendo-date-picker ng-model="vm.ReconciliationCase.caseFromDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                To Date:
+                <input id="caseDatePickerTo" kendo-date-picker ng-model="vm.ReconciliationCase.caseToDateString" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                Payors:
+                <select kendo-drop-down-list
+                        @*k-ng-delay="vm.ReconciliationCase.payorCodesList"*@
+                        k-data-source="vm.ReconciliationCase.payorCodesList"
+                        k-data-text-field="'text'"
+                        k-data-value-field="'value'"
+                        K-option-label="'All'"
+                        ng-model="vm.ReconciliationCase.payorSelection"
+                        style="width: 200px; margin-right:5px;" />
+            </label>
+
+            <label class="category-label" style="display:inline-block">
+                Payor Groups:
+                <select kendo-drop-down-list
+                        @*k-ng-delay="vm.ReconciliationCase.payorGroupList"*@
+                        k-data-source="vm.ReconciliationCase.payorGroupList"
+                        k-data-text-field="'text'"
+                        k-data-value-field="'value'"
+                        k-option-label="'All'"
+                        ng-model="vm.ReconciliationCase.payorGroupSelection"
+                        style="width: 140px; margin-right:5px;" />
+            </label>
+            <label class="category-label" style="display:inline-block; margin-top:5px;">
+                Filter Internal:
+                <input type="checkbox" data-bind="checked: noShowInternal" ng-model="vm.ReconciliationCase.FilterInternalCases" ng-change="vm.ReconciliationCase.RunFilter(kendoEvent)" />
+            </label>
+            <kendo-button ng-click="vm.ReconciliationCase.GetCaseDataForGrid(kendoEvent)"> Load </kendo-button>
+        </div>
+    </div>
+</script>
+
+@*Case Reconciliation Wait Window*@
+<div kendo-window="vm.windowCaseTransactionCreationWait" k-visible="false" k-modal="true" k-actions="[]">
+    <h2>Please wait while Case Transaction data is retrieved</h2>
+</div>
+
+@*Case Reconciliation Popup*@
+<div kendo-window="vm.windowCaseReconciliation" k-visible="false" k-modal="true" style="width:auto;height:auto" k-on-close="vm.ReconciliationCase.onPopupClose(kendoEvent)">
+    <div style="float:left;clear:left;overflow:scroll">
+        <img src="Assets/Sig_Gen_Logo_4c_258x40.png" />
+
+        <!-- Transaction Detail Pane -->
+        <div class="form-group-lg" role="form">
+
+            <label class="h3" style="display:inline-block; margin-top:5px">
+                <strong>Description: {{vm.TransactionDescription}}</strong>
+            </label>
+            <br />
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px">
+                <strong>
+                    Transaction Amount:
+                </strong>
+            </label>
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px; margin-right:15px">
+                <strong>{{vm.TransactionAmount | currency}}</strong>
+            </label>
+            <br />
+
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px; margin-right:15px">
+                Cases Reconciled: {{vm.TransactionCaseCount}}
+            </label>
+
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px; margin-right:15px">
+                Late Fee: {{vm.TransactionLateFee | currency}}
+                @*<input type="text" id="txtCaseList" ng-model="vm.ReconciliationCase.TransactionLateFee" style="width: 50px;" />*@
+            </label>
+
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px; margin-right:15px">
+                Bank Fee: {{vm.TransactionBankFee | currency}}
+                @*<input type="text" id="txtCaseList" ng-model="vm.ReconciliationCase.TransactionBankFee" style="width: 50px;" />*@
+            </label>
+
+            <label class="h4" style="display:inline; margin-top:5px; margin-left:5px; margin-right:15px">
+                Interest: {{vm.TransactionInterest | currency}}
+                @*<input type="text" id="txtCaseList" ng-model="vm.ReconciliationCase.TransactionInterest" style="width: 50px;" />*@
+            </label>
+            <br />
+            <label class="h3" style="display:inline; margin-top:5px; margin-left:5px">
+                <strong>
+                    Bal Remaining: {{vm.TransactionBalance | currency}}
+                </strong>
+            </label>
+            <br />
+            <p />
+        </div>
+        @*<script type="text/x-kendo-template" id="CaseTransactionDetailTemplate">
+
+
+        </script>*@
+
+        <!-- Case Reconciliation Grid -->
+        <div id="dropCaseTransaction" kendo-droptarget k-drop="vm.ReconciliationCase.onCaseReconciliationDrop">
+            <div kendo-grid="CaseReconciliationGrid"
+                    id="CaseReconciliationGrid"
+                    k-ng-delay="vm.ReconciliationCase.CaseReconciliationGridOptions"
+                    k-options="vm.ReconciliationCase.CaseReconciliationGridOptions"
+                    k-on-edit="vm.ReconciliationCase.onEditCaseRecon(kendoEvent)"
+                    @*k-on-drop="vm.ReconciliationCase.onCaseReconciliationDrop(kendoEvent)"*@>
+
+                <!--k-on-edit="vm.ReconciliationCase.onEditCaseRecon(kendoEvent)"-->
+                <!-- case detail grid -->
+                @*<div kendo-grid k-options="vm.ReconciliationCase.caseDetailGridOptions(dataItem)"></div>*@
+            </div>
+        </div>
+
+        <div kendo-grid="CaseGrid"
+                k-ng-delay="vm.ReconciliationCase.CaseGridOptions"
+                k-options="vm.ReconciliationCase.CaseGridOptions"
+                k-on-change="vm.ReconciliationCase.onCaseSelect(kendoEvent)">
+                <!-- case detail grid -->
+                @*<div kendo-grid k-options="vm.ReconciliationCase.caseDetailGridOptions(dataItem)"></div>*@
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Payor Editor";
+}
+<div>
+    <div class="container">
+        <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+    </div>
+
+    <div kendo-grid="vm.PayorEditorGrid"
+         k-ng-delay="vm.gridOptions"
+         k-options="vm.gridOptions"></div>
+</div>

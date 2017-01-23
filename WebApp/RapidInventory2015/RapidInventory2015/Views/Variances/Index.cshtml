@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RapidInventory2015.Models.VarianceCRUD>
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+    <title>Index</title>
+</head>
+<p>
+</p>
+@Html.Grid(Model).Columns(columns =>
+           {
+               columns.Add(c => c.ITEM_NO).Titled("Item No").SetWidth(110).Sortable(true);
+               columns.Add(c => c.DESCR).Titled("Description").Sortable(true);
+               columns.Add(c => c.BARCOD).Titled("Barcode").Sortable(true);
+               columns.Add(c => c.UNIT).Titled("Unit").Sortable(true);
+               columns.Add(c => c.FRZ_QTY_ON_HND).Titled("Qty Frozen").Sortable(true);
+               columns.Add(c => c.CNT_QTY).Titled("CNT_QTY").Sortable(true);
+           }).WithPaging(20)
+<p />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ITEM_NO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UNIT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CNT_QTY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FRZ_QTY_ON_HND)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ITEM_NO)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UNIT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CNT_QTY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FRZ_QTY_ON_HND)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,193 @@
+﻿/* ss*/
+
+label {
+    display: block;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+body {
+    font-family: Segoe UI;
+    overflow-x: auto;
+    background-color: white;
+}
+
+
+div.k-window-content {
+    position: relative;
+    font-size: 10px;
+    height: 100%;
+    padding: .58em;
+    overflow: auto;
+    outline: 0;
+}
+
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: 0px;
+    margin-left: -0px;
+}
+
+}
+
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+.extendwrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -90px; /* the bottom margin is the negative value of the footer's height */
+    font-size: 10px;
+    color: #333;
+    background-color: #fff;
+}
+
+.footer, .push {
+    height: 90px; /* .push must be the same height as .footer */
+    clear:both;
+}
+
+form {
+    height: 100%;
+}
+
+#colorstrip {
+    width: 100%;
+    height: 90px;
+    background-color: #00d0ff;
+    font-size: 14px;
+}
+
+.k-pager-wrap .k-pager-sizes .k-dropdown {
+    width: 75px;
+}
+
+input, textarea {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.sidebar-nav {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+    .sidebar-nav > .sidebar-brand {
+        height: 65px;
+        line-height: 44px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+
+/*#gridWindow {
+    width:  1850px;
+}*/
+
+/* Error Stack Trace size and color options */
+div.panel {
+    margin: 0px;
+    padding: 5px;
+    text-align: left;
+    background: #ddd;
+    border: solid 1px #fff;
+    max-width: 75%;
+    display: none;
+}
+
+/* Error Stack Trace panel button */
+div.flip {
+    border: solid 1px #fff;
+}
+
+.flip span {
+    color: blue;
+}
+
+.flip:hover span {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/*remove box shadow from panelbar*/
+.k-panelbar .k-state-focused.k-state-selected, td.k-state-focused.k-state-selected, .k-state-selected td.k-state-focused, .k-listview > .k-state-focused.k-state-selected {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+
+.k-link .k-header {
+    background-color: #eef;
+}
+
+
+.sgnl-panelbar {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+    .sgnl-panelbar:not(.k-state-selected) {
+        font-size: 14px;
+        font-weight: bold;
+        background-color: lightblue;
+    }
+
+.sgnl-distinctlabel {
+    font-size: medium;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+.sgnl-identifier {
+    color: cornflowerblue;
+    font-style: italic;
+}
+
+.sgnl-columnitemlabel {
+    font-size: 12px;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+.k-panelbar .k-content, .k-panelbar .k-panel, .k-panelbar .k-item {
+    border-color: #fff;
+}
+
+.k-grid-excel {
+    float: right;
+    margin-right: 10px;
+}
+
+.k-edit-cell > .k-textbox, .k-edit-cell > .k-widget, .k-grid-edit-row > td > .k-textbox, .k-grid-edit-row > td > .k-widget, .k-grid-edit-row > td > .text-box {
+    width: 85%;
+}
+
+.not-found {
+    margin: 18px 0px 45px 0px;
+    font-family: "Century Gothic";
+    font-size: 2em;
+    color: #666;
+    text-align: center;
+}
+
+#topdiv {
+    background-color: azure;
+}
+
+.k-grid tr:hover {
+  color: #000;
+  background-color: #71B8C9;
+}

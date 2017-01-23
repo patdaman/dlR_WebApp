@@ -1,0 +1,130 @@
+﻿
+@{
+    string BaseUrl = Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+}
+@{
+    ViewBag.Title = "Billing Tracker";
+}
+
+<div>
+    <div>
+        <div class="container">
+            <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+        </div>
+
+
+        <div class="container-fluid">
+            <script type="text/x-kendo-template" id="toolbarTemplate">
+                <div class="toolbar">
+                    <div class="form-inline" role="form">
+                        <label class="category-label" style="display:inline-block">
+                            Date Type:
+                            <select kendo-drop-down-list ng-model="vm.dateType">
+                                <option>Completed Date</option>
+                                <option>Order Date</option>
+                            </select>
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            From Date:
+                            <input id="datePickerFrom" kendo-date-picker ng-model="vm.fromDateString" />
+                        </label>
+
+                        <label class="category-label" style="display:inline-block">
+                            To Date:
+                            <input id="datePickerTo" kendo-date-picker ng-model="vm.toDateString" />
+                        </label>
+                        <kendo-button ng-click="vm.GetData($event)"> Load </kendo-button>
+
+                        <label class="category-label" style="display:inline-block">
+                            SGNL Status:
+                            <select kendo-drop-down-list
+                                    k-ng-delay="vm.billStatusList"
+                                    k-data-source="vm.billStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="vm.billStatusSelection"
+                                    ng-change='vm.RunFilter(kendoEvent)'
+                                    style="width: 100px; margin-right:5px;" />
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            Xifin Status:
+                            <select kendo-drop-down-list
+                                    k-ng-delay="vm.xifinStatusList"
+                                    k-data-source="vm.xifinStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="vm.xifinStatusSelection"
+                                    ng-change='vm.RunFilter(kendoEvent)'
+                                    style="width: 100px; margin-right:5px;" />
+                        </label>
+                        <label class="category-label" style="display:inline-block">
+                            Statement Status:
+                            <select kendo-drop-down-list
+                                    k-ng-delay="vm.statementStatusList"
+                                    k-data-source="vm.statementStatusList"
+                                    k-data-text-field="'Item'"
+                                    k-data-value-field="'Item'"
+                                    k-option-label="'All'"
+                                    ng-model="vm.statementStatusSelection"
+                                    ng-change='vm.RunFilter(kendoEvent)'
+                                    style="width: 100px; margin-right:5px;" />
+                        </label>
+                        <div class="pull-right" style="display:inline-block">
+                            <a class="k-button k-button-icontext k-grid-excel">
+                                <span class="k-icon k-i-excel"></span>Export to Excel
+                            </a>
+                        </div>
+                        <br />
+                        <label class="category-label" style="display:inline-block; margin-top:5px">
+                            CaseNumber (comma separate if entering multiple Cases): <input type="text" id="txtCaseList" ng-model="::vm.caseListStr" style="width: 250px;" />
+                        </label>
+                        <kendo-button ng-click="::vm.SearchCases()"> Search Case(s) </kendo-button>
+                    </div>
+                </div>
+            </script>
+
+
+            @*Detail Template*@
+            <script type="text/x-kendo-template" id="detailTemplate">
+                <table>
+                    <tr>
+                        <td>
+
+                            <div class='Error-details'>
+                                <!-- detail grid -->
+                                @*<kendo-tabstrip>*@
+                                <ul>
+                                    <li class="k-state-active">Current Errors</li>
+                                    <li>All Errors</li>
+                                    <li>Contact Notes</li>
+                                </ul>
+                                <div>
+                                    <div class="currErr"></div>
+                                </div>
+                                <div>
+                                    <div class="allErr"></div>
+                                </div>
+                                <div>
+                                    <div class="notes"></div>
+                                </div>
+                                @*</kendo-tabstrip>*@
+                            </div>
+                        </td>
+                        <td width="110px">
+                            <div class="ErrorRefresh" style="float:right;display:inline-block">
+                                <input type="button" class="k-button save" value="Refresh from Xifin" style="float:none;display:inline-block;height:70px;width:70px;font-weight:bold;white-space:normal"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </script>
+            <div kendo-grid="gridAccessionTrackingReport"
+                 k-ng-delay="vm.accessionTrackingGridOptions"
+                 k-options="vm.accessionTrackingGridOptions">
+            </div>
+
+        </div>
+    </div>
+</div>

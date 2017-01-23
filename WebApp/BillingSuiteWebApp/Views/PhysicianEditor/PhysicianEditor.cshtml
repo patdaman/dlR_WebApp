@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Physician Editor";
+}
+<div>
+    <div class="container">
+        <h3 class="sgnl-identifier">{{vm.identifier}}</h3>
+    </div>
+
+
+    <!-- TOOLBAR -->
+    <script type="text/x-kendo-template" id="toolbarTemplate">
+        <div class="toolbar">
+            <div class="form-inline" role="form">
+                <div class="pull-right" style="display:inline-block">
+
+                    <a class="k-button k-button-icontext k-grid-excel">
+                        <span class="k-icon k-i-excel"></span>Export to Excel
+                    </a>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <div kendo-grid="vm.PhysicianEditorGrid"
+         k-ng-delay="vm.gridOptions"
+         k-options="vm.gridOptions"></div>
+</div>

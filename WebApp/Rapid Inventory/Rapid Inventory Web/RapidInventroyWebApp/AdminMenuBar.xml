@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Items Text="">
+  <Item Text="Setup" Url="~/Setup.aspx">
+    <Item Text="Configure Location" Url="~/ConfigureLocation.aspx" />
+    <Item Text="Delete Count" Url="~/DeleteCount.aspx" />
+    <Item Text="Upload Item Data" Url="~/UploadItemData.aspx" />
+  </Item>
+  <Item Text="Dashboard" Url="" />
+  <Item Text="Extract Count" Url=""/>
+  <Item Text="Log out" Url=""/>
+</Items>
+

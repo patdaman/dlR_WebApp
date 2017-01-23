@@ -1,0 +1,30 @@
+﻿@model Rapid_e4473.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@using (Html.BeginForm("Register", "e4473", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h2>Create a new e4473</h2>
+    <hr />
+    <h5>
+        One important email is sent to you to you when you complete this eform.
+    </h5>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EMAIL, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EMAIL, new { @class = "form-control" })
+            <br />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <p />
+            @Html.ActionLink("I have an existing form I would like to edit", "Login")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" name="BtnNext" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+

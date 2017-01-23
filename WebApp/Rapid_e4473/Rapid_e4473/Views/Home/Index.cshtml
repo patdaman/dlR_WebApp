@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="jumbotron">
+    <h1>Rapid e4473</h1>
+    <p class="lead">The easiest and quickest way to fill out the required 4473 form with your local participating merchant.</p>
+    <p>
+        @Html.ActionLink("Begin", "Index", "e4473", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+        @Html.ActionLink("Learn More", "About", "Home", new { area = "" }, new { @class = "btn btn-primary btn-lg" })
+    </p>
+</div>

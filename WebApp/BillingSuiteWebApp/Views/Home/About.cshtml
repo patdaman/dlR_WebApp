@@ -1,0 +1,37 @@
+﻿@model SignalViewModel.Configuration
+
+<h3>
+    About this application
+</h3>
+
+<h4> Server Time: @Model.ServerTime</h4>
+<table class="w3-table-all" style="width:70%">
+    <tr>
+        <th>Component</th>
+        <th>Version</th>
+        <th>Build</th>
+        <th>Server</th>
+        <th>DB LIS</th>
+        <th>DB Warehouse</th>
+        <th>DB Internal</th>
+        <th>DB Finance</th>
+    </tr>
+    <tr>
+        <td>Application</td>
+        <td>@Model.AppAssemblyVersion</td>
+        <td>@Model.AppBuildTag</td>
+        <td>@Model.AppServer</td>
+    </tr>
+    <tr>
+        <td>API</td>
+        <td>@Model.ApiAssemblyVersion</td>
+        <td>@Model.ApiBuildTag</td>
+        <td>@Model.ApiServer</td>
+        <td>@Model.DB_LIS</td>
+        <td>@Model.DB_Warehouse</td>
+        <td>@Model.DB_Internal</td>
+        <td>@Model.DB_Finance</td>
+    </tr>
+</table>
+<hr>
+

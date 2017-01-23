@@ -1,0 +1,29 @@
+﻿@model Rapid_e4473.Models.barcode
+@using Rapid_e4473.Models
+@using Rapid_e4473.HelperClasses
+@{
+    ViewBag.Title = "Success";
+}
+
+<div class="jumbotron">
+    <h1>Barcode</h1>
+    <p class="lead">Customer Data Saved Successfully!</p>
+    <p class="lead">Show this barcode to your participating dealer for fast processing of your 4473 form.</p>
+</div>
+
+<div class="row">
+    <div class="col-lg-10">
+        <p>
+            @if (!string.IsNullOrEmpty(Model.BARCODE))
+            {
+                @:Rapid 4473 ID: @Model.BARCODE
+            }
+        </p>
+        <p>
+            @if (!string.IsNullOrEmpty(Model.IMAGEURL))
+            { 
+                <img src="@Model.IMAGEURL" />
+            }
+        </p>
+    </div>
+</div>
